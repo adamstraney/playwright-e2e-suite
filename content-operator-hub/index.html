@@ -78,6 +78,13 @@
   /* ============================================================
      HEADER
      ============================================================ */
+  /* Flex children shrink by default. Once the page grew past one screen that
+     squeezed the timer card, and its overflow:hidden quietly ate the
+     Start/Reset buttons. Let the column grow instead of compressing. */
+  .app > *{
+    flex-shrink: 0;
+  }
+
   .header{
     text-align: center;
     margin-bottom: 18px;
@@ -262,12 +269,20 @@
     margin-bottom: 24px;
   }
 
+  /* .card is a positioning shell only; .card-link carries the visual card so
+     the "cleared" checkbox can sit above it without nesting a button inside
+     an anchor (invalid HTML, and it would hijack the tap). */
   .card{
+    position: relative;
+  }
+
+  .card-link{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
     gap: 22px;
+    height: 100%;
     text-decoration: none;
     background: var(--surface);
     border: 1px solid var(--border-soft);
@@ -275,17 +290,17 @@
     padding: 18px 16px;
     min-height: 130px;
     box-shadow: var(--shadow-card);
-    transition: transform 0.12s ease, border-color 0.2s ease, background 0.2s ease;
+    transition: transform 0.12s ease, border-color 0.2s ease, opacity 0.25s ease;
     position: relative;
     overflow: hidden;
   }
 
-  .card:active{
+  .card-link:active{
     transform: scale(0.96);
     border-color: var(--card-accent, var(--border));
   }
 
-  .card::after{
+  .card-link::after{
     content: "";
     position: absolute;
     inset: 0;
@@ -341,7 +356,7 @@
     transition: transform 0.15s ease;
   }
 
-  .card:active .card-sub .arrow{
+  .card-link:active .card-sub .arrow{
     transform: translate(2px, -0.5px);
   }
 
@@ -448,9 +463,175 @@
     transform: scale(0.96);
   }
 
+  /* ============================================================
+     SPRINT STATUS
+     ============================================================ */
+  .section-head{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0 4px 12px;
+  }
+
+  .section-head .section-label{ margin: 0; }
+
+  .sprint-status{
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .sprint-status.is-complete{ color: var(--timer-green); }
+
+  /* ============================================================
+     CHANNEL CLEARED CHECKBOX
+     ============================================================ */
+  .card-check{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1.5px solid #2b2b2e;
+    background: var(--surface-2);
+    color: transparent;
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 1;
+    cursor: pointer;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.12s ease;
+  }
+
+  .card-check:active{ transform: scale(0.88); }
+
+  .card.is-cleared .card-check{
+    background: var(--timer-green);
+    border-color: var(--timer-green);
+    color: #000000;
+  }
+
+  .card.is-cleared .card-link{
+    opacity: 0.4;
+  }
+
+  /* ============================================================
+     IDEA SANDBOX
+     ============================================================ */
+  .sandbox{ margin-bottom: 24px; }
+
+  .sandbox-form{
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .sandbox-input{
+    flex: 1;
+    min-width: 0;
+    appearance: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 13px 14px;
+    color: var(--text-primary);
+    /* 16px keeps iOS Safari from zooming the page when the field is focused */
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.2s ease;
+  }
+
+  .sandbox-input::placeholder{ color: var(--text-tertiary); }
+  .sandbox-input:focus{
+    outline: none;
+    border-color: #3a3a3f;
+  }
+
+  .sandbox-add{
+    flex: 0 0 52px;
+    appearance: none;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--text-primary);
+    color: #000000;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform 0.12s ease, opacity 0.2s ease;
+  }
+
+  .sandbox-add:active{ transform: scale(0.94); }
+  .sandbox-add:disabled{ opacity: 0.3; cursor: default; }
+
+  .idea-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .idea-item{
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 13px 14px;
+    margin-bottom: 8px;
+  }
+
+  .idea-text{
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text-primary);
+    overflow-wrap: anywhere;
+  }
+
+  .idea-remove{
+    flex: 0 0 auto;
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: var(--text-tertiary);
+    font-size: 19px;
+    line-height: 1;
+    padding: 2px 2px 4px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.2s ease, transform 0.12s ease;
+  }
+
+  .idea-remove:active{
+    color: var(--timer-red);
+    transform: scale(0.85);
+  }
+
+  .idea-empty{
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-tertiary);
+    text-align: center;
+    padding: 16px 8px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+  }
+
   @media (max-width: 360px){
     .timer-display{ font-size: 54px; }
-    .card{ min-height: 122px; padding: 16px 14px; }
+    .card-link{ min-height: 122px; padding: 16px 14px; }
   }
 </style>
 </head>
@@ -463,7 +644,7 @@
        ============================================================ -->
   <header class="header">
     <p class="eyebrow">Mission Control</p>
-    <h1>Surgical Social Hub</h1>
+    <h1>The Content Operator Hub</h1>
   </header>
 
   <!-- ============================================================
@@ -486,64 +667,104 @@
   <!-- ============================================================
        DEEP LINK GRID
        ============================================================ -->
-  <p class="section-label">Surgical Gateways</p>
+  <div class="section-head">
+    <p class="section-label">Surgical Gateways</p>
+    <span class="sprint-status" id="sprintStatus">0 of 4 cleared</span>
+  </div>
 
   <div class="grid">
 
-    <a class="card card-instagram" href="https://www.instagram.com/direct/inbox/" target="_blank" rel="noopener noreferrer">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="3" y="3" width="18" height="18" rx="5.5" stroke="#e1306c" stroke-width="1.8"/>
-          <circle cx="12" cy="12" r="4.2" stroke="#e1306c" stroke-width="1.8"/>
-          <circle cx="17.15" cy="6.85" r="1.15" fill="#e1306c"/>
-        </svg>
-      </div>
-      <div class="card-copy">
-        <span class="card-title">Instagram</span>
-        <span class="card-sub">DMs<span class="arrow">&#8250;</span></span>
-      </div>
-    </a>
+    <div class="card card-instagram" data-channel="instagram">
+      <a class="card-link" href="https://www.instagram.com/direct/inbox/" target="_blank" rel="noopener noreferrer">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="18" height="18" rx="5.5" stroke="#e1306c" stroke-width="1.8"/>
+            <circle cx="12" cy="12" r="4.2" stroke="#e1306c" stroke-width="1.8"/>
+            <circle cx="17.15" cy="6.85" r="1.15" fill="#e1306c"/>
+          </svg>
+        </div>
+        <div class="card-copy">
+          <span class="card-title">Instagram</span>
+          <span class="card-sub">DMs<span class="arrow">&#8250;</span></span>
+        </div>
+      </a>
+      <button type="button" class="card-check" data-channel="instagram" aria-pressed="false" aria-label="Mark Instagram DMs cleared">&#10003;</button>
+    </div>
 
-    <a class="card card-x" href="https://x.com/notifications" target="_blank" rel="noopener noreferrer">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 4L20 20M20 4L4 20" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <div class="card-copy">
-        <span class="card-title">X</span>
-        <span class="card-sub">Notifications<span class="arrow">&#8250;</span></span>
-      </div>
-    </a>
+    <div class="card card-x" data-channel="x">
+      <a class="card-link" href="https://x.com/notifications" target="_blank" rel="noopener noreferrer">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 4L20 20M20 4L4 20" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="card-copy">
+          <span class="card-title">X</span>
+          <span class="card-sub">Notifications<span class="arrow">&#8250;</span></span>
+        </div>
+      </a>
+      <button type="button" class="card-check" data-channel="x" aria-pressed="false" aria-label="Mark X notifications cleared">&#10003;</button>
+    </div>
 
-    <a class="card card-linkedin" href="https://www.linkedin.com/messaging/" target="_blank" rel="noopener noreferrer">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="3" y="3" width="18" height="18" rx="4" stroke="#0a66c2" stroke-width="1.8"/>
-          <circle cx="8.2" cy="8.4" r="1.15" fill="#0a66c2"/>
-          <path d="M8.2 11.2V16.4" stroke="#0a66c2" stroke-width="1.8" stroke-linecap="round"/>
-          <path d="M11.6 16.4V13.3C11.6 12 12.5 11.1 13.7 11.1C14.9 11.1 15.7 12 15.7 13.3V16.4" stroke="#0a66c2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <div class="card-copy">
-        <span class="card-title">LinkedIn</span>
-        <span class="card-sub">Messages<span class="arrow">&#8250;</span></span>
-      </div>
-    </a>
+    <div class="card card-linkedin" data-channel="linkedin">
+      <a class="card-link" href="https://www.linkedin.com/messaging/" target="_blank" rel="noopener noreferrer">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="3" width="18" height="18" rx="4" stroke="#0a66c2" stroke-width="1.8"/>
+            <circle cx="8.2" cy="8.4" r="1.15" fill="#0a66c2"/>
+            <path d="M8.2 11.2V16.4" stroke="#0a66c2" stroke-width="1.8" stroke-linecap="round"/>
+            <path d="M11.6 16.4V13.3C11.6 12 12.5 11.1 13.7 11.1C14.9 11.1 15.7 12 15.7 13.3V16.4" stroke="#0a66c2" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="card-copy">
+          <span class="card-title">LinkedIn</span>
+          <span class="card-sub">Messages<span class="arrow">&#8250;</span></span>
+        </div>
+      </a>
+      <button type="button" class="card-check" data-channel="linkedin" aria-pressed="false" aria-label="Mark LinkedIn messages cleared">&#10003;</button>
+    </div>
 
-    <a class="card card-tiktok" href="https://www.tiktok.com/messages" target="_blank" rel="noopener noreferrer">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14.5 3.5C14.9 5.4 16.2 6.9 18.1 7.3V10C16.6 10 15.2 9.5 14.1 8.7V14.6C14.1 17.4 11.9 19.6 9.1 19.6C6.3 19.6 4.1 17.4 4.1 14.6C4.1 11.9 6.2 9.7 8.9 9.6V12.4C7.7 12.5 6.8 13.5 6.8 14.6C6.8 15.9 7.8 16.9 9.1 16.9C10.4 16.9 11.4 15.9 11.4 14.6V3.5H14.5Z" stroke="#25f4ee" stroke-width="1.4" stroke-linejoin="round"/>
-        </svg>
-      </div>
-      <div class="card-copy">
-        <span class="card-title">TikTok</span>
-        <span class="card-sub">Activity<span class="arrow">&#8250;</span></span>
-      </div>
-    </a>
+    <div class="card card-tiktok" data-channel="tiktok">
+      <a class="card-link" href="https://www.tiktok.com/messages" target="_blank" rel="noopener noreferrer">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14.5 3.5C14.9 5.4 16.2 6.9 18.1 7.3V10C16.6 10 15.2 9.5 14.1 8.7V14.6C14.1 17.4 11.9 19.6 9.1 19.6C6.3 19.6 4.1 17.4 4.1 14.6C4.1 11.9 6.2 9.7 8.9 9.6V12.4C7.7 12.5 6.8 13.5 6.8 14.6C6.8 15.9 7.8 16.9 9.1 16.9C10.4 16.9 11.4 15.9 11.4 14.6V3.5H14.5Z" stroke="#25f4ee" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="card-copy">
+          <span class="card-title">TikTok</span>
+          <span class="card-sub">Activity<span class="arrow">&#8250;</span></span>
+        </div>
+      </a>
+      <button type="button" class="card-check" data-channel="tiktok" aria-pressed="false" aria-label="Mark TikTok activity cleared">&#10003;</button>
+    </div>
 
   </div>
+
+  <!-- ============================================================
+       IDEA SANDBOX
+       ============================================================ -->
+  <section class="sandbox">
+    <div class="section-head">
+      <p class="section-label">Idea Sandbox</p>
+      <span class="sprint-status" id="ideaCount">0 held</span>
+    </div>
+
+    <form class="sandbox-form" id="sandboxForm" autocomplete="off">
+      <input
+        class="sandbox-input"
+        id="sandboxInput"
+        type="text"
+        maxlength="280"
+        placeholder="Dump an idea before it escapes&hellip;"
+        aria-label="New idea"
+        enterkeyhint="done">
+      <button type="submit" class="sandbox-add" id="sandboxAdd" aria-label="Save idea" disabled>+</button>
+    </form>
+
+    <ul class="idea-list" id="ideaList"></ul>
+    <p class="idea-empty" id="ideaEmpty">Nothing parked yet. Capture it here instead of opening an app.</p>
+  </section>
 
   <p class="footer-note">Home feeds are not linked on purpose.<br><strong>Engage. Reply. Log off.</strong></p>
 
@@ -573,6 +794,7 @@
   var RED_THRESHOLD = 60;          // under 1:00 remaining -> red + flashing
   var TICK_MS = 250;               // repaint rate; accuracy comes from the clock
   var STORAGE_KEY = "surgicalSocialHub.timer.v1";
+  var WORKSPACE_KEY = "contentOperatorHub.workspace.v1";
 
   /* ============================================================
      STATE
@@ -597,6 +819,14 @@
   var resetBtn = document.getElementById("resetBtn");
   var modalOverlay = document.getElementById("modalOverlay");
   var modalDismissBtn = document.getElementById("modalDismissBtn");
+  var sprintStatus = document.getElementById("sprintStatus");
+  var cardEls = document.querySelectorAll(".card[data-channel]");
+  var sandboxForm = document.getElementById("sandboxForm");
+  var sandboxInput = document.getElementById("sandboxInput");
+  var sandboxAdd = document.getElementById("sandboxAdd");
+  var ideaList = document.getElementById("ideaList");
+  var ideaEmpty = document.getElementById("ideaEmpty");
+  var ideaCount = document.getElementById("ideaCount");
 
   /* ============================================================
      HELPERS
@@ -798,11 +1028,178 @@
   }
 
   /* ============================================================
+     WORKSPACE  --  daily sprint + idea sandbox
+     ============================================================ */
+  var CHANNEL_COUNT = cardEls.length;
+  var cleared = {};        // { instagram: true, ... } for the current day
+  var ideas = [];          // [{ id, text }]
+  var sprintDay = "";      // YYYY-MM-DD the `cleared` map belongs to
+
+  /* Local calendar date. Built by hand rather than via toISOString(), which
+     is UTC and would flip the day at the wrong hour for most timezones. */
+  function todayKey(){
+    var d = new Date();
+    var m = d.getMonth() + 1;
+    var day = d.getDate();
+    return d.getFullYear() + "-" + (m < 10 ? "0" : "") + m + "-" + (day < 10 ? "0" : "") + day;
+  }
+
+  function saveWorkspace(){
+    try{
+      window.localStorage.setItem(WORKSPACE_KEY, JSON.stringify({
+        sprintDay: sprintDay,
+        cleared: cleared,
+        ideas: ideas
+      }));
+    } catch (err) { /* storage unavailable - session-only */ }
+  }
+
+  function loadWorkspace(){
+    sprintDay = todayKey();
+
+    var raw = null;
+    try{
+      raw = window.localStorage.getItem(WORKSPACE_KEY);
+    } catch (err) { return; }
+
+    if (!raw) return;
+
+    try{
+      var saved = JSON.parse(raw);
+      if (!saved || typeof saved !== "object") return;
+
+      // The sprint is a *daily* routine: yesterday's ticks start cleared,
+      // but parked ideas are kept until the operator deletes them.
+      if (saved.sprintDay === sprintDay && saved.cleared && typeof saved.cleared === "object"){
+        cleared = saved.cleared;
+      }
+
+      if (Object.prototype.toString.call(saved.ideas) === "[object Array]"){
+        ideas = saved.ideas.filter(function(item){
+          return item && typeof item.text === "string";
+        }).map(function(item){
+          return { id: String(item.id || (Date.now() + Math.random())), text: item.text };
+        });
+      }
+    } catch (err) {
+      cleared = {};
+      ideas = [];
+    }
+  }
+
+  function clearedCount(){
+    var n = 0;
+    for (var i = 0; i < cardEls.length; i++){
+      if (cleared[cardEls[i].getAttribute("data-channel")]) n++;
+    }
+    return n;
+  }
+
+  function renderSprint(){
+    for (var i = 0; i < cardEls.length; i++){
+      var card = cardEls[i];
+      var isCleared = cleared[card.getAttribute("data-channel")] === true;
+      card.classList.toggle("is-cleared", isCleared);
+      var btn = card.querySelector(".card-check");
+      if (btn) btn.setAttribute("aria-pressed", isCleared ? "true" : "false");
+    }
+
+    var done = clearedCount();
+    var all = done === CHANNEL_COUNT;
+    sprintStatus.textContent = all ? "All clear — log off" : done + " of " + CHANNEL_COUNT + " cleared";
+    sprintStatus.classList.toggle("is-complete", all);
+  }
+
+  function toggleChannel(name){
+    cleared[name] = !cleared[name];
+    if (!cleared[name]) delete cleared[name];
+    renderSprint();
+    saveWorkspace();
+  }
+
+  /* Ideas are rendered as text nodes, never as markup, so an idea containing
+     angle brackets stays a harmless string. */
+  function renderIdeas(){
+    while (ideaList.firstChild){
+      ideaList.removeChild(ideaList.firstChild);
+    }
+
+    for (var i = 0; i < ideas.length; i++){
+      var idea = ideas[i];
+
+      var li = document.createElement("li");
+      li.className = "idea-item";
+
+      var span = document.createElement("span");
+      span.className = "idea-text";
+      span.textContent = idea.text;
+
+      var remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "idea-remove";
+      remove.setAttribute("data-id", idea.id);
+      remove.setAttribute("aria-label", "Delete idea");
+      remove.textContent = "×";
+
+      li.appendChild(span);
+      li.appendChild(remove);
+      ideaList.appendChild(li);
+    }
+
+    ideaEmpty.hidden = ideas.length > 0;
+    ideaCount.textContent = ideas.length + " held";
+  }
+
+  function addIdea(text){
+    var trimmed = text.replace(/\s+/g, " ").trim();
+    if (!trimmed) return;
+
+    ideas.unshift({
+      id: String(Date.now()) + "-" + Math.random().toString(36).slice(2, 8),
+      text: trimmed.slice(0, 280)
+    });
+
+    if (ideas.length > 200) ideas.length = 200;
+
+    renderIdeas();
+    saveWorkspace();
+  }
+
+  function removeIdea(id){
+    ideas = ideas.filter(function(idea){ return idea.id !== id; });
+    renderIdeas();
+    saveWorkspace();
+  }
+
+  /* ============================================================
      EVENTS
      ============================================================ */
   startPauseBtn.addEventListener("click", toggleStartPause);
   resetBtn.addEventListener("click", resetTimer);
   modalDismissBtn.addEventListener("click", hideModal);
+
+  for (var c = 0; c < cardEls.length; c++){
+    cardEls[c].querySelector(".card-check").addEventListener("click", function(evt){
+      evt.preventDefault();
+      toggleChannel(evt.currentTarget.getAttribute("data-channel"));
+    });
+  }
+
+  sandboxInput.addEventListener("input", function(){
+    sandboxAdd.disabled = sandboxInput.value.trim() === "";
+  });
+
+  sandboxForm.addEventListener("submit", function(evt){
+    evt.preventDefault();
+    addIdea(sandboxInput.value);
+    sandboxInput.value = "";
+    sandboxAdd.disabled = true;
+  });
+
+  ideaList.addEventListener("click", function(evt){
+    var btn = evt.target.closest(".idea-remove");
+    if (btn) removeIdea(btn.getAttribute("data-id"));
+  });
 
   document.addEventListener("visibilitychange", function(){
     if (!document.hidden) resync();
@@ -829,6 +1226,11 @@
 
   syncButton();
   render();
+
+  loadWorkspace();
+  renderSprint();
+  renderIdeas();
+  saveWorkspace();   // stamps today's date so a stale sprint cannot linger
 
 })();
 </script>
