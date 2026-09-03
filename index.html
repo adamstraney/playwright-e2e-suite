@@ -490,7 +490,7 @@
 
   <div class="grid">
 
-    <a class="card card-instagram" href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+    <a class="card card-instagram" href="https://www.instagram.com/direct/inbox/" target="_blank" rel="noopener noreferrer">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="3" y="3" width="18" height="18" rx="5.5" stroke="#e1306c" stroke-width="1.8"/>
@@ -504,7 +504,7 @@
       </div>
     </a>
 
-    <a class="card card-x" href="https://x.com" target="_blank" rel="noopener noreferrer">
+    <a class="card card-x" href="https://x.com/notifications" target="_blank" rel="noopener noreferrer">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M4 4L20 20M20 4L4 20" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round"/>
@@ -516,7 +516,7 @@
       </div>
     </a>
 
-    <a class="card card-linkedin" href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+    <a class="card card-linkedin" href="https://www.linkedin.com/messaging/" target="_blank" rel="noopener noreferrer">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="3" y="3" width="18" height="18" rx="4" stroke="#0a66c2" stroke-width="1.8"/>
@@ -531,7 +531,7 @@
       </div>
     </a>
 
-    <a class="card card-tiktok" href="https://tiktok.com" target="_blank" rel="noopener noreferrer">
+    <a class="card card-tiktok" href="https://www.tiktok.com/messages" target="_blank" rel="noopener noreferrer">
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M14.5 3.5C14.9 5.4 16.2 6.9 18.1 7.3V10C16.6 10 15.2 9.5 14.1 8.7V14.6C14.1 17.4 11.9 19.6 9.1 19.6C6.3 19.6 4.1 17.4 4.1 14.6C4.1 11.9 6.2 9.7 8.9 9.6V12.4C7.7 12.5 6.8 13.5 6.8 14.6C6.8 15.9 7.8 16.9 9.1 16.9C10.4 16.9 11.4 15.9 11.4 14.6V3.5H14.5Z" stroke="#25f4ee" stroke-width="1.4" stroke-linejoin="round"/>
@@ -571,13 +571,20 @@
   var DEFAULT_SECONDS = 15 * 60;   // 15 minute default batching window
   var AMBER_THRESHOLD = 5 * 60;    // under 5:00 remaining -> amber
   var RED_THRESHOLD = 60;          // under 1:00 remaining -> red + flashing
+  var TICK_MS = 250;               // repaint rate; accuracy comes from the clock
+  var STORAGE_KEY = "surgicalSocialHub.timer.v1";
 
   /* ============================================================
      STATE
      ============================================================ */
-  var remainingSeconds = DEFAULT_SECONDS;
-  var totalSeconds = DEFAULT_SECONDS;
+  /* The countdown is derived from the wall clock, never from a tick counter.
+     Mobile browsers throttle (and iOS suspends) timers in background tabs, so
+     counting ticks would stall or drift the moment you tap through to
+     Instagram -- which is precisely when this timer has to stay honest. */
+  var endsAt = null;              // wall-clock ms when the window closes (running only)
+  var pausedRemaining = DEFAULT_SECONDS;  // seconds left while idle/paused
   var isRunning = false;
+  var hasExpired = false;
   var intervalId = null;
 
   /* ============================================================
@@ -602,9 +609,17 @@
     return minsStr + ":" + secsStr;
   }
 
+  function remainingSeconds(){
+    if (isRunning && endsAt !== null){
+      return Math.max(0, Math.ceil((endsAt - Date.now()) / 1000));
+    }
+    return Math.max(0, pausedRemaining);
+  }
+
   function currentStateClass(){
-    if (remainingSeconds <= RED_THRESHOLD) return "state-red";
-    if (remainingSeconds <= AMBER_THRESHOLD) return "state-amber";
+    var left = remainingSeconds();
+    if (left <= RED_THRESHOLD) return "state-red";
+    if (left <= AMBER_THRESHOLD) return "state-amber";
     return "";
   }
 
@@ -623,61 +638,132 @@
   }
 
   function render(){
-    timerDisplay.textContent = formatTime(remainingSeconds);
-    var pct = totalSeconds > 0 ? (remainingSeconds / totalSeconds) * 100 : 0;
-    timerProgressFill.style.width = pct + "%";
+    var left = remainingSeconds();
+    timerDisplay.textContent = formatTime(left);
+    timerProgressFill.style.width = ((left / DEFAULT_SECONDS) * 100) + "%";
     applyStateClasses();
+  }
+
+  function syncButton(){
+    startPauseBtn.textContent = isRunning ? "Pause" : "Start";
+    startPauseBtn.classList.toggle("is-running", isRunning);
+  }
+
+  /* ============================================================
+     PERSISTENCE
+     Storage can throw (private browsing, sandboxed iframes such as a
+     Notion embed). The timer must still work for the current page view
+     when it does, so every access is guarded.
+     ============================================================ */
+  function saveState(){
+    try{
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        endsAt: endsAt,
+        pausedRemaining: pausedRemaining,
+        isRunning: isRunning,
+        hasExpired: hasExpired
+      }));
+    } catch (err) { /* storage unavailable - run in-memory only */ }
+  }
+
+  function loadState(){
+    var raw = null;
+    try{
+      raw = window.localStorage.getItem(STORAGE_KEY);
+    } catch (err) { return; }
+
+    if (!raw) return;
+
+    try{
+      var saved = JSON.parse(raw);
+      if (!saved || typeof saved !== "object") return;
+
+      isRunning = saved.isRunning === true;
+      hasExpired = saved.hasExpired === true;
+      endsAt = typeof saved.endsAt === "number" ? saved.endsAt : null;
+      pausedRemaining = typeof saved.pausedRemaining === "number"
+        ? saved.pausedRemaining
+        : DEFAULT_SECONDS;
+
+      // A running session with no deadline is incoherent - fall back to idle.
+      if (isRunning && endsAt === null){
+        isRunning = false;
+        pausedRemaining = DEFAULT_SECONDS;
+      }
+    } catch (err) {
+      endsAt = null;
+      pausedRemaining = DEFAULT_SECONDS;
+      isRunning = false;
+      hasExpired = false;
+    }
   }
 
   /* ============================================================
      TIMER CONTROLS
      ============================================================ */
-  function tick(){
-    if (remainingSeconds <= 0){
-      stopTimer();
-      showModal();
-      return;
-    }
-    remainingSeconds -= 1;
-    render();
-
-    if (remainingSeconds <= 0){
-      stopTimer();
-      showModal();
-    }
+  function startInterval(){
+    if (intervalId !== null) return;
+    intervalId = window.setInterval(tick, TICK_MS);
   }
 
-  function startTimer(){
-    if (isRunning) return;
-    if (remainingSeconds <= 0){
-      remainingSeconds = totalSeconds;
-    }
-    isRunning = true;
-    startPauseBtn.textContent = "Pause";
-    startPauseBtn.classList.add("is-running");
-    intervalId = window.setInterval(tick, 1000);
-    render();
-  }
-
-  function pauseTimer(){
-    isRunning = false;
-    startPauseBtn.textContent = "Start";
-    startPauseBtn.classList.remove("is-running");
+  function stopInterval(){
     if (intervalId !== null){
       window.clearInterval(intervalId);
       intervalId = null;
     }
   }
 
-  function stopTimer(){
-    pauseTimer();
+  function tick(){
+    render();
+    if (isRunning && remainingSeconds() <= 0){
+      expireTimer();
+    }
+  }
+
+  function expireTimer(){
+    isRunning = false;
+    endsAt = null;
+    pausedRemaining = 0;
+    hasExpired = true;
+    stopInterval();
+    syncButton();
+    render();
+    saveState();
+    showModal();
+  }
+
+  function startTimer(){
+    if (isRunning) return;
+    var secs = pausedRemaining > 0 ? pausedRemaining : DEFAULT_SECONDS;
+    endsAt = Date.now() + (secs * 1000);
+    isRunning = true;
+    hasExpired = false;
+    startInterval();
+    syncButton();
+    render();
+    saveState();
+  }
+
+  function pauseTimer(){
+    if (!isRunning) return;
+    pausedRemaining = remainingSeconds();
+    isRunning = false;
+    endsAt = null;
+    stopInterval();
+    syncButton();
+    render();
+    saveState();
   }
 
   function resetTimer(){
-    stopTimer();
-    remainingSeconds = DEFAULT_SECONDS;
-    totalSeconds = DEFAULT_SECONDS;
+    isRunning = false;
+    endsAt = null;
+    pausedRemaining = DEFAULT_SECONDS;
+    hasExpired = false;
+    stopInterval();
+    syncButton();
     render();
+    saveState();
   }
 
   function toggleStartPause(){
@@ -685,6 +771,17 @@
       pauseTimer();
     } else {
       startTimer();
+    }
+  }
+
+  /* Re-read the clock whenever the tab comes back to the foreground, so
+     returning from Instagram shows the true time left (or the closing
+     modal, if the window ran out while you were away). */
+  function resync(){
+    if (!isRunning) return;
+    render();
+    if (remainingSeconds() <= 0){
+      expireTimer();
     }
   }
 
@@ -707,9 +804,30 @@
   resetBtn.addEventListener("click", resetTimer);
   modalDismissBtn.addEventListener("click", hideModal);
 
+  document.addEventListener("visibilitychange", function(){
+    if (!document.hidden) resync();
+  });
+  window.addEventListener("focus", resync);
+  window.addEventListener("pageshow", resync);
+
   /* ============================================================
      INIT
+     Restore any session left running by a previous page view, so tapping
+     out to a platform and back does not silently hand you a fresh 15:00.
      ============================================================ */
+  loadState();
+
+  if (isRunning){
+    if (remainingSeconds() <= 0){
+      expireTimer();          // window closed while the tab was away
+    } else {
+      startInterval();
+    }
+  } else if (hasExpired){
+    showModal();              // closing screen was never acknowledged
+  }
+
+  syncButton();
   render();
 
 })();
