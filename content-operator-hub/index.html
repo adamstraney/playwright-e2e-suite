@@ -47,6 +47,11 @@
     -webkit-tap-highlight-color: transparent;
   }
 
+  /* A class that sets display (block/flex/grid) otherwise beats the hidden
+     attribute, and the element renders as an empty bar. This outranks all
+     of them, so el.hidden = true always actually hides. */
+  [hidden]{ display: none !important; }
+
   html, body{
     margin: 0;
     padding: 0;
@@ -637,6 +642,50 @@
     border-radius: var(--radius-sm);
   }
 
+  .countdown{
+    display: block;
+    text-decoration: none;
+    background: linear-gradient(135deg, rgba(225,48,108,.16), rgba(255,159,10,.10));
+    border: 1px solid rgba(225,48,108,.42);
+    border-radius: var(--radius-sm);
+    padding: 13px 15px;
+    margin-bottom: 14px;
+    transition: transform .12s ease;
+  }
+  .countdown:active{ transform: scale(.98); }
+  .countdown .cd-n{
+    display: block;
+    font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    color: #ff7ba8; margin-bottom: 3px;
+  }
+  .countdown .cd-t{
+    display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); line-height: 1.4;
+  }
+
+  .variants{
+    display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;
+  }
+  .variant{
+    appearance: none; font-family: inherit; cursor: pointer;
+    font-size: 12px; font-weight: 600; letter-spacing: -.01em;
+    padding: 7px 11px; border-radius: 999px;
+    background: var(--surface-2); color: var(--text-secondary);
+    border: 1px solid var(--border);
+    transition: background .2s ease, color .2s ease, transform .12s ease;
+  }
+  .variant:active{ transform: scale(.94); }
+  .variant[aria-selected="true"]{
+    background: var(--text-primary); color: #000; border-color: transparent;
+  }
+
+  .guard{
+    font-size: 12px; line-height: 1.5; color: #ffc978;
+    background: rgba(255,159,10,.08);
+    border-left: 2px solid rgba(255,159,10,.5);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 12px; margin: 0 0 14px;
+  }
+
   /* ============================================================
      MODE TABS
      ============================================================ */
@@ -890,12 +939,16 @@
     </div>
 
 
+    <a class="countdown" id="countdown" href="#" hidden></a>
+
     <div class="post-card" id="postCard">
+      <div class="variants" id="variants" hidden></div>
       <div class="post-meta">
         <span class="chip chip-brand" id="postBrand">Brand</span>
         <span class="chip" id="postPlatform">Platform</span>
       </div>
       <h3 class="post-topic" id="postTopic">Topic</h3>
+      <p class="guard" id="guard" hidden></p>
       <div class="post-text" id="postText">Post text</div>
       <p class="post-len" id="postLen"></p>
 
@@ -977,9 +1030,11 @@
   /* ============================================================
      THE OPERATION
      ------------------------------------------------------------
-     Lifted from the Console and Signal boards. Three brands plus the
-     work search, on the weekday rhythm those boards already define --
-     not an even rotation, because the real week is not even.
+     Voice rules this copy follows, from the voice guide: no em dashes,
+     dropped apostrophes are fine, uneven sentence lengths, specific
+     numbers over adjectives, slightly self-deprecating, never asks for
+     the follow. CTAs only on game-side posts, never on @breakpointadam
+     and never on LinkedIn.
      ============================================================ */
   var CHANNELS = {
     wu: { name: "Warped",      accent: "#25f4ee" },
@@ -988,70 +1043,94 @@
     jb: { name: "Work search", accent: "#9aa0a6" }
   };
 
-  /* Reddit/Google sweep tiles, per channel, straight from the boards.
-     These are where the work actually happens -- not the consumer apps. */
+  /* The account each post lands on, and the line it must not cross. */
+  var ACCOUNTS = {
+    bpadam:   { at: "@breakpointadam",  guard: "Craft only. No game announcements, no wishlist CTA, no crypto. If it needs a link to work it doesnt belong here." },
+    tiktok:   { at: "@adam_warped",     guard: "Zero crypto. Hook in the first half second, start mid action. Text overlay, 80% watch on mute." },
+    x:        { at: "@Adam_Warped",     guard: "Upload video natively, roughly 10x a YouTube link. Token talk goes to Telegram." },
+    linkedin: { at: "LinkedIn",         guard: "Must be defensible to a recruiter. No crypto, no hype language, no CTA." },
+    reddit:   { at: "u/johnyutah",      guard: "Read the sub rules first, every time. Real numbers, never sales. Tue to Thu, 9 to 11am EST." },
+    nlaw:     { at: "The New Law",      guard: "Artist voice, not founder voice. Keep the game completely out of it. Justin co-owns this story." },
+    steam:    { at: "Steam",            guard: "Every patch and milestone. Keep latest news pinned." }
+  };
+
   var TILES = {
     wu: [
-      { n: "r/gamingsuggestions", t: "co-op PvE · new",     u: "https://www.reddit.com/r/gamingsuggestions/search/?q=co-op+pve&restrict_sr=1&sort=new&t=week" },
-      { n: "r/ShouldIBuyThisGame", t: "co-op · new",        u: "https://www.reddit.com/r/ShouldIbuythisgame/search/?q=co-op&restrict_sr=1&sort=new&t=week" },
-      { n: "after Destiny 2",     t: "google · past week",  u: "https://www.google.com/search?q=site%3Areddit.com+what+to+play+after+Destiny+2&tbs=qdr:w" },
-      { n: "like Helldivers",     t: "google · past year",  u: "https://www.google.com/search?q=site%3Areddit.com+games+like+Helldivers&tbs=qdr:y" },
-      { n: "\u201cWarped Universe\u201d", t: "every mention · week", u: "https://www.google.com/search?q=site%3Areddit.com+%22Warped+Universe%22&tbs=qdr:w" },
-      { n: "r/warpeduniverse",    t: "your own sub",        u: "https://www.reddit.com/r/warpeduniverse/new/" }
+      { n: "r/gamingsuggestions", t: "co-op PvE · new",   u: "https://www.reddit.com/r/gamingsuggestions/search/?q=co-op+pve&restrict_sr=1&sort=new&t=week" },
+      { n: "r/ShouldIBuyThisGame", t: "co-op · new",      u: "https://www.reddit.com/r/ShouldIbuythisgame/search/?q=co-op&restrict_sr=1&sort=new&t=week" },
+      { n: "after Destiny 2",     t: "google · past week", u: "https://www.google.com/search?q=site%3Areddit.com+what+to+play+after+Destiny+2&tbs=qdr:w" },
+      { n: "like Helldivers",     t: "google · past year", u: "https://www.google.com/search?q=site%3Areddit.com+games+like+Helldivers&tbs=qdr:y" },
+      { n: "“Warped Universe”", t: "every mention", u: "https://www.google.com/search?q=site%3Areddit.com+%22Warped+Universe%22&tbs=qdr:w" },
+      { n: "r/warpeduniverse",    t: "your own sub",         u: "https://www.reddit.com/r/warpeduniverse/new/" }
     ],
     bp: [
       { n: "worth paying for",    t: "google · past month", u: "https://www.google.com/search?q=site%3Areddit.com+%22worth+paying+for+mastering%22&tbs=qdr:m" },
       { n: "engineer rec",        t: "google · past month", u: "https://www.google.com/search?q=site%3Areddit.com+%22mastering+engineer%22+recommendation&tbs=qdr:m" },
       { n: "what does it cost",   t: "google · past month", u: "https://www.google.com/search?q=site%3Areddit.com+%22how+much+does+mastering+cost%22&tbs=qdr:m" },
-      { n: "r/audioengineering",  t: "answer, no links",    u: "https://www.reddit.com/r/audioengineering/search/?q=mastering+engineer&restrict_sr=1&sort=new&t=week" },
-      { n: "r/WeAreTheMusicMakers", t: "answer, no links",  u: "https://www.reddit.com/r/WeAreTheMusicMakers/search/?q=mastering&restrict_sr=1&sort=new&t=week" },
-      { n: "r/musicproduction",   t: "answer, no links",    u: "https://www.reddit.com/r/musicproduction/search/?q=mastering&restrict_sr=1&sort=new&t=week" }
+      { n: "r/audioengineering",  t: "answer, no links",       u: "https://www.reddit.com/r/audioengineering/search/?q=mastering+engineer&restrict_sr=1&sort=new&t=week" },
+      { n: "r/WeAreTheMusicMakers", t: "answer, no links",     u: "https://www.reddit.com/r/WeAreTheMusicMakers/search/?q=mastering&restrict_sr=1&sort=new&t=week" },
+      { n: "Discogs credits",     t: "180+ · anniversaries", u: "https://www.discogs.com/artist/2245222" }
     ],
     nl: [
-      { n: "Bandcamp",            t: "followers + messages", u: "https://thenewlaw.bandcamp.com/" },
-      { n: "The New Law (2006)",  t: "the debut · Sep 18",   u: "https://thenewlaw.bandcamp.com/album/the-new-law" },
-      { n: "High Noon (2009)",    t: "KEXP: near perfect",   u: "https://thenewlaw.bandcamp.com/album/high-noon" },
-      { n: "A Bull in the Woods", t: "most recent",          u: "https://thenewlaw.bandcamp.com/album/a-bull-in-the-woods" },
-      { n: "every mention",       t: "google · past month",  u: "https://www.google.com/search?q=%22The+New+Law%22+trip+hop+Straney&tbs=qdr:m" },
-      { n: "Last.fm",             t: "listeners",            u: "https://www.last.fm/music/The+New+Law" }
+      { n: "Bandcamp",            t: "followers + messages",  u: "https://thenewlaw.bandcamp.com/" },
+      { n: "The New Law (2006)",  t: "the debut · Sep 18", u: "https://thenewlaw.bandcamp.com/album/the-new-law" },
+      { n: "High Noon (2009)",    t: "KEXP: near perfect",    u: "https://thenewlaw.bandcamp.com/album/high-noon" },
+      { n: "A Bull in the Woods", t: "most recent · 2018", u: "https://thenewlaw.bandcamp.com/album/a-bull-in-the-woods" },
+      { n: "r/triphop",           t: "revival is real",       u: "https://www.reddit.com/r/triphop/new/" },
+      { n: "Last.fm",             t: "listeners",             u: "https://www.last.fm/music/The+New+Law" }
     ],
     jb: [
-      { n: "F5Bot",               t: "background alerts",    u: "https://f5bot.com/" },
-      { n: "Google Alerts",       t: "background alerts",    u: "https://www.google.com/alerts" }
+      { n: "F5Bot",               t: "background alerts",     u: "https://f5bot.com/" },
+      { n: "Google Alerts",       t: "background alerts",     u: "https://www.google.com/alerts" }
     ]
   };
 
-  /* One content action per weekday, as the Console lays it out. Tuesday and
-     Saturday carry no post on purpose -- they are deep-work days. */
+  /* Dated moments outrank the weekly rhythm. */
+  var DATED = {
+    "2026-09-18": {
+      ch: "nl", mins: 60, title: "20 years of The New Law",
+      brief: "The debut came out Sep 18 2006. Four posts, four accounts, one day. Zero budget and zero footage needed.",
+      variants: [
+        { acct: "nlaw", label: "Bandcamp", text:
+"20 years ago today.\n\nThe New Law came out Sep 18 2006. Me and Justin, a sampler, a sax, and whatever else we could find.\n\nWe havent put anything out since 2018. No dramatic reason, life just went other directions.\n\nIve been back through the old sessions for the anniversary and theres more in there than i remembered. Working on something.\n\nNothing to buy yet. Just wanted to say twenty years, and that we read every single letter anyone ever sent us about these records." },
+        { acct: "bpadam", label: "Instagram", text:
+"Twenty years ago today The New Law came out. Me and Justin Neff, mostly in a bedroom.\n\nThat record is the reason BreakPoint exists, which i dont think ive ever actually said out loud. Alex Ruder was spinning us on KEXP back then. I told him if he ever needed anyone to master something i was about to start doing that. He was just getting Hush Hush going. I did their second release. Then the one after that. Then it just kept going.\n\nFifteen years and 225 releases later and all of it traces back to a record two friends made because they felt like it.\n\nJustin, thanks for the twenty years." },
+        { acct: "linkedin", label: "LinkedIn", text:
+"Twenty years ago today a record i made with a friend came out.\n\nPunk bands as a kid. Drum and bass in college, which turned into DJing, which turned into producing. Then The New Law with Justin Neff in 2006.\n\nI started mastering because of that band. Somebody had to do it and it turned out i liked that part more than making the records.\n\nThat became BreakPoint Mastering in 2011. Fifteen years, 225 releases, labels like Sub Pop and Kill Rock Stars. Then game audio. Then running a studio.\n\nSame job the whole time if im honest. Get the sound right. The medium keeps changing and the work doesnt.\n\nTwenty years is a strange number to look at." },
+        { acct: "reddit", label: "r/triphop", text:
+"Our first record turned 20 today. Some numbers from a project nobody has promoted in 8 years.\n\nThe New Law, trip hop duo out of Seattle. First album Sep 18 2006, four albums total, last one 2018, then we stopped.\n\nWhere it sits now with zero promotion since then:\n\n- 5,113 Spotify followers\n- 2,170 monthly listeners\n- Get Your Gun sitting at 912,904 plays\n- roughly 1.5M across the top five tracks\n\nThat follower to listener ratio is backwards and it took me an embarrassingly long time to work out what it meant. Active artists have far more monthly listeners than followers. We have the opposite. So about 5,000 people opted in at some point and have had nothing to open since 2018.\n\nIts not a dead audience. Its a mailing list i forgot i owned.\n\nAnyway. Twenty years. Might do something about that." }
+      ]
+    }
+  };
+
   var WEEK = {
-    1: { ch: "wu", mins: 90, title: "Craft post",
-         brief: "Sound design, an art process, or a dev lesson. Top of the craft list is already chosen for you.",
-         idea: "Making grenade sounds with my son \u2014 recorded, not sampled, and made with your kid. Source object, raw take, layers, then the sound in game. Decide before filming whether he is on camera or just hands and voice.",
-         where: "video \u00b7 r/sounddesign \u00b7 r/gamedev \u00b7 LinkedIn" },
-    2: { ch: "bp", mins: 90, title: "No post today",
-         brief: "Deep block on BreakPoint, then the NEW LAW hour. Nothing to publish \u2014 that is the plan, not a gap.",
+    1: { ch: "wu", mins: 90, title: "Craft post", acct: "reddit",
+         brief: "Sound design, an art process, or a dev lesson. Nobody else on gaming TikTok shows vocoder chains turning mechanical samples into alien sounds. Thats the moat.",
+         idea: "Making grenade sounds with my son. Recorded, not sampled. Source object, raw take, layers, then the sound in game. Decide before filming whether hes on camera or just hands and voice.\n\nI can write this one properly once you tell me what you actually recorded. Without that its invented, and r/sounddesign will smell it.",
+         where: "video · r/sounddesign · r/gamedev · LinkedIn" },
+    2: { ch: "bp", mins: 90, title: "No post today", acct: "",
+         brief: "Deep block on BreakPoint. Outreach outranks posting, always. Emails to labels and mixers book sessions, posts dont.",
          idea: "", where: "" },
-    3: { ch: "wu", mins: 90, title: "Fan-sub post",
-         brief: "Be a fan first. Rotate the sub \u2014 never the same one twice a month, never lead with a store link.",
-         idea: "r/LowSodiumDestiny is proven (43k views). r/CoOpGaming and r/spacesimgames accept posts. r/Warframe and r/helldivers2 are comment-only.",
-         where: "r/LowSodiumDestiny \u00b7 r/CoOpGaming \u00b7 r/spacesimgames" },
-    4: { ch: "wu", mins: 15, title: "Steam announcement",
-         brief: "Even a small one. It stops the store page going stale. Two real job applications also land today.",
-         idea: "Weekly Steam post. You hold 3,576 wishlists and they never expire \u2014 this is what keeps them warm.",
-         where: "Steam store page" },
-    5: { ch: "nl", mins: 15, title: "EP work-in-progress clip",
-         brief: "Sixty seconds, a phone, a DAW window. Do not wait until it is finished to have an audience for it.",
-         idea: "Same format as the Warped sound design posts, which are the highest-upvoted things you make anywhere.",
-         where: "Bandcamp \u00b7 Facebook group \u00b7 r/audioengineering" },
-    6: { ch: "nl", mins: 90, title: "Studio block",
+    3: { ch: "wu", mins: 90, title: "Fan-sub post", acct: "reddit",
+         brief: "Be a fan first. Rotate the sub, never the same one twice a month, never lead with a store link. r/games took 25,000 views and removed it, so read the rules every time.",
+         idea: "r/LowSodiumDestiny is proven at 43k views. r/CoOpGaming and r/spacesimgames accept posts. r/Warframe and r/helldivers2 are comment only.\n\nTell me which sub and what the post is reacting to and ill write it.",
+         where: "r/LowSodiumDestiny · r/CoOpGaming · r/spacesimgames" },
+    4: { ch: "wu", mins: 15, title: "Steam announcement", acct: "steam",
+         brief: "Even a small one. It stops the store page going stale, and gaps in the history look worse than a late post.",
+         idea: "Ads are off, visibility is down. This is the free surface that still works while co-op cooks. Post what actually moved. Numbers first, no launch hype, and if the week was slow just say it was slow.",
+         where: "Steam · IndieDB" },
+    5: { ch: "nl", mins: 15, title: "EP work-in-progress clip", acct: "nlaw",
+         brief: "Sixty seconds, a phone, a DAW window. Same format as the Warped sound design posts, which are the highest upvoted things you make anywhere.",
+         idea: "Dont wait until the EP is finished to have an audience for it. 5,113 people already opted in and have had nothing to open since 2018.",
+         where: "Bandcamp · Facebook group · r/audioengineering" },
+    6: { ch: "nl", mins: 90, title: "Studio block", acct: "",
          brief: "Ninety minutes on the EP. No posting obligation.",
          idea: "", where: "" },
-    0: { ch: "wu", mins: 20, title: "Queue next week",
-         brief: "Pick Monday\u2019s craft post and Wednesday\u2019s fan-sub post now, so Monday has no thinking in it. That is the whole job today.",
+    0: { ch: "wu", mins: 20, title: "Queue next week", acct: "",
+         brief: "Pick Mondays craft post and Wednesdays fan-sub post now, so Monday has no thinking in it. Thats the whole job today.",
          idea: "", where: "" }
   };
 
-  /* The smallest version of each block, for the days it will not start. */
   var MICRO = "Set a timer for ten minutes and open the file. Not the task, just the file. You can stop when it rings.";
 
   var DEFAULT_SECONDS = 15 * 60;   // 15 minute default batching window
@@ -1515,22 +1594,47 @@
   var goBtn = document.getElementById("goBtn");
   var doneBtn = document.getElementById("doneBtn");
   var prefillNote = document.getElementById("prefillNote");
+  var variantsEl = document.getElementById("variants");
+  var guardEl = document.getElementById("guard");
+  var countdownEl = document.getElementById("countdown");
   var streakN = document.getElementById("streakN");
   var streakLabel = document.getElementById("streakLabel");
   var upNext = document.getElementById("upNext");
 
+  var DAY_NAMES = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  var variantIx = 0;
+
+  function isoOf(d){
+    var m = d.getMonth() + 1, day = d.getDate();
+    return d.getFullYear() + "-" + (m < 10 ? "0" : "") + m + "-" + (day < 10 ? "0" : "") + day;
+  }
+
+  /* A dated moment outranks the weekly rhythm for that day. */
   function todayEntry(offset){
     var d = new Date();
     if (offset) d.setDate(d.getDate() + offset);
-    return { day: d.getDay(), plan: WEEK[d.getDay()] };
+    var dated = DATED[isoOf(d)];
+    return { day: d.getDay(), plan: dated || WEEK[d.getDay()], dated: !!dated };
   }
 
-  var DAY_NAMES = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  /* Nearest dated moment still ahead, for the countdown. */
+  function upcoming(){
+    var today = new Date();
+    today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    var best = null;
+    for (var iso in DATED){
+      if (!Object.prototype.hasOwnProperty.call(DATED, iso)) continue;
+      var bits = iso.split("-");
+      var when = new Date(+bits[0], +bits[1] - 1, +bits[2]);
+      var days = Math.round((when - today) / 86400000);
+      if (days > 0 && (!best || days < best.days)) best = { days: days, iso: iso, ev: DATED[iso] };
+    }
+    return best;
+  }
 
   function savePlanState(){
-    try{
-      window.localStorage.setItem(PLAN_KEY, JSON.stringify({ logged: logged }));
-    } catch (err) { /* storage unavailable */ }
+    try{ window.localStorage.setItem(PLAN_KEY, JSON.stringify({ logged: logged })); }
+    catch (err) { /* storage unavailable */ }
   }
 
   function loadPlanState(){
@@ -1545,27 +1649,63 @@
     } catch (err) { logged = []; }
   }
 
+  function activeText(plan){
+    if (plan.variants && plan.variants.length){
+      return plan.variants[Math.min(variantIx, plan.variants.length - 1)].text;
+    }
+    return plan.idea || "";
+  }
+
+  function renderVariants(plan){
+    while (variantsEl.firstChild) variantsEl.removeChild(variantsEl.firstChild);
+    var has = !!(plan.variants && plan.variants.length);
+    variantsEl.hidden = !has;
+    if (!has) return;
+
+    for (var i = 0; i < plan.variants.length; i++){
+      (function(ix){
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "variant";
+        b.setAttribute("aria-selected", ix === variantIx ? "true" : "false");
+        b.textContent = plan.variants[ix].label;
+        b.addEventListener("click", function(){ variantIx = ix; renderPost(); });
+        variantsEl.appendChild(b);
+      })(i);
+    }
+  }
+
   function renderPost(){
     var today = todayEntry(0);
     var next = todayEntry(1);
     var plan = today.plan;
     var chan = CHANNELS[plan.ch] || CHANNELS.bp;
-    var hasPost = !!plan.idea;
+    var text = activeText(plan);
+    var hasPost = !!text;
+
+    renderVariants(plan);
+
+    var acctKey = (plan.variants && plan.variants.length)
+      ? plan.variants[Math.min(variantIx, plan.variants.length - 1)].acct
+      : plan.acct;
+    var acct = ACCOUNTS[acctKey];
 
     postBrand.textContent = chan.name;
     postBrand.style.setProperty("--brand-accent", chan.accent);
-    postPlatform.textContent = plan.mins + " min";
+    // the account chip is noise when it just repeats the brand chip
+    postPlatform.textContent = (acct && acct.at !== chan.name) ? acct.at : plan.mins + " min";
     postTopic.textContent = plan.title;
-    postText.textContent = plan.idea || plan.brief;
+    postText.textContent = text || plan.brief;
 
-    postLen.textContent = hasPost ? plan.where : "";
+    guardEl.hidden = !acct;
+    if (acct) guardEl.textContent = acct.guard;
+
+    postLen.textContent = hasPost ? (text.length + " characters · " + plan.mins + " min block") : "";
     postLen.classList.remove("over");
 
     copyBtn.hidden = !hasPost;
     goBtn.hidden = !hasPost;
-    prefillNote.textContent = hasPost
-      ? plan.brief
-      : MICRO;
+    prefillNote.textContent = hasPost ? plan.brief : MICRO;
 
     if (hasPost){
       goBtn.textContent = "Open " + chan.name + " tiles";
@@ -1574,14 +1714,28 @@
     }
 
     var doneToday = logged.indexOf(todayKey()) !== -1;
-    doneBtn.textContent = doneToday ? "Logged today \u2713" : (hasPost ? "Mark posted" : "Mark block done");
+    doneBtn.textContent = doneToday ? "Logged today ✓" : (hasPost ? "Mark posted" : "Mark block done");
     doneBtn.classList.toggle("is-done", doneToday);
 
     streakN.textContent = logged.length;
     streakLabel.innerHTML = (logged.length === 1 ? "session logged" : "sessions logged") + "<br>no chain to break";
 
-    upNext.innerHTML = "Tomorrow \u00b7 <strong>" + DAY_NAMES[next.day] + "</strong>: " +
-      next.plan.title + " \u00b7 " + (CHANNELS[next.plan.ch] || {}).name;
+    upNext.innerHTML = "Tomorrow · <strong>" + DAY_NAMES[next.day] + "</strong>: " +
+      next.plan.title + " · " + ((CHANNELS[next.plan.ch] || {}).name || "");
+
+    var soon = upcoming();
+    countdownEl.hidden = !soon;
+    if (soon){
+      while (countdownEl.firstChild) countdownEl.removeChild(countdownEl.firstChild);
+      var n = document.createElement("span");
+      n.className = "cd-n";
+      n.textContent = soon.days === 1 ? "tomorrow" : soon.days + " days out";
+      var t = document.createElement("span");
+      t.className = "cd-t";
+      t.textContent = soon.ev.title + ". " + (soon.ev.variants ? soon.ev.variants.length + " posts ready." : "");
+      countdownEl.appendChild(n);
+      countdownEl.appendChild(t);
+    }
   }
 
   /* Clipboard API needs a secure context and a user gesture; fall back to a
@@ -1628,7 +1782,7 @@
   });
 
   copyBtn.addEventListener("click", function(){
-    copyText(todayEntry(0).plan.idea).then(function(){
+    copyText(activeText(todayEntry(0).plan)).then(function(){
       copyBtn.textContent = "Copied ✓";
       copyBtn.classList.add("is-copied");
       window.setTimeout(function(){
