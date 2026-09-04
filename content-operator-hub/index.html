@@ -1,0 +1,1994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<title>The Content Operator Hub</title>
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<style>
+  /* ============================================================
+     DESIGN TOKENS
+     ============================================================ */
+  :root{
+    --bg: #000000;
+    --surface: #0a0a0a;
+    --surface-2: #121212;
+    --border: #1f1f1f;
+    --border-soft: #171717;
+    --text-primary: #f5f5f5;
+    --text-secondary: #8a8a8e;
+    --text-tertiary: #55555a;
+
+    --accent-instagram: #e1306c;
+    --accent-x: #ffffff;
+    --accent-linkedin: #0a66c2;
+    --accent-tiktok: #25f4ee;
+
+    --timer-green: #30d158;
+    --timer-amber: #ff9f0a;
+    --timer-red: #ff3b30;
+
+    --radius-lg: 22px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+
+    --shadow-card: 0 1px 0 rgba(255,255,255,0.03) inset, 0 8px 24px rgba(0,0,0,0.55);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  *{
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* A class that sets display (block/flex/grid) otherwise beats the hidden
+     attribute, and the element renders as an empty bar. This outranks all
+     of them, so el.hidden = true always actually hides. */
+  [hidden]{ display: none !important; }
+
+  html, body{
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text-primary);
+    height: 100%;
+    overscroll-behavior-y: none;
+  }
+
+  body{
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .app{
+    width: 100%;
+    max-width: 430px;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    padding: calc(18px + var(--safe-top)) 18px calc(28px + var(--safe-bottom));
+    position: relative;
+  }
+
+  /* ============================================================
+     HEADER
+     ============================================================ */
+  /* Flex children shrink by default. Once the page grew past one screen that
+     squeezed the timer card, and its overflow:hidden quietly ate the
+     Start/Reset buttons. Let the column grow instead of compressing. */
+  .app > *{
+    flex-shrink: 0;
+  }
+
+  .header{
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  .header .eyebrow{
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin: 0 0 4px;
+  }
+
+  .header h1{
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0;
+    background: linear-gradient(135deg, #ffffff 0%, #a9a9b2 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ============================================================
+     TIMER
+     ============================================================ */
+  .timer-card{
+    background: linear-gradient(180deg, var(--surface-2) 0%, var(--surface) 100%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 22px 20px 18px;
+    margin-bottom: 22px;
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .timer-card::before{
+    content: "";
+    position: absolute;
+    top: -60%;
+    left: -20%;
+    width: 140%;
+    height: 140%;
+    background: radial-gradient(circle at 30% 20%, rgba(48,209,88,0.08), transparent 60%);
+    pointer-events: none;
+    transition: background 0.6s ease;
+  }
+
+  .timer-card.state-amber::before{
+    background: radial-gradient(circle at 30% 20%, rgba(255,159,10,0.10), transparent 60%);
+  }
+
+  .timer-card.state-red::before{
+    background: radial-gradient(circle at 30% 20%, rgba(255,59,48,0.14), transparent 60%);
+  }
+
+  .timer-label{
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin: 0 0 10px;
+    position: relative;
+  }
+
+  .timer-display{
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    font-size: 64px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin: 0 0 18px;
+    color: var(--timer-green);
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+    text-shadow: 0 0 30px rgba(48,209,88,0.25);
+    position: relative;
+  }
+
+  .timer-display.state-amber{
+    color: var(--timer-amber);
+    text-shadow: 0 0 30px rgba(255,159,10,0.3);
+  }
+
+  .timer-display.state-red{
+    color: var(--timer-red);
+    text-shadow: 0 0 30px rgba(255,59,48,0.35);
+    animation: flash-red 1s ease-in-out infinite;
+  }
+
+  @keyframes flash-red{
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  .timer-progress-track{
+    width: 100%;
+    height: 4px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.07);
+    overflow: hidden;
+    margin-bottom: 18px;
+    position: relative;
+  }
+
+  .timer-progress-fill{
+    height: 100%;
+    width: 100%;
+    border-radius: 4px;
+    background: var(--timer-green);
+    transition: width 1s linear, background 0.4s ease;
+  }
+
+  .timer-progress-fill.state-amber{ background: var(--timer-amber); }
+  .timer-progress-fill.state-red{ background: var(--timer-red); }
+
+  .timer-controls{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    position: relative;
+  }
+
+  .timer-btn{
+    appearance: none;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 14px 0;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: transform 0.12s ease, opacity 0.15s ease, background 0.2s ease;
+    font-family: inherit;
+  }
+
+  .timer-btn:active{
+    transform: scale(0.96);
+  }
+
+  .timer-btn-primary{
+    background: var(--text-primary);
+    color: #000000;
+  }
+
+  .timer-btn-primary.is-running{
+    background: var(--surface-2);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+
+  .timer-btn-secondary{
+    background: var(--surface-2);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+  }
+
+  /* ============================================================
+     SECTION LABEL
+     ============================================================ */
+  .section-label{
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin: 0 0 12px 4px;
+  }
+
+  /* ============================================================
+     CARD GRID
+     ============================================================ */
+  .grid{
+    display: grid;
+    /* minmax(0,...) lets a column shrink below its content, so a long
+       subreddit name wraps instead of pushing the page sideways. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  /* .card is a positioning shell only; .card-link carries the visual card so
+     the "cleared" checkbox can sit above it without nesting a button inside
+     an anchor (invalid HTML, and it would hijack the tap). */
+  .card{
+    position: relative;
+  }
+
+  .card-link{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 22px;
+    height: 100%;
+    text-decoration: none;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-md);
+    padding: 18px 16px;
+    min-height: 130px;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.12s ease, border-color 0.2s ease, opacity 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-link:active{
+    transform: scale(0.96);
+    border-color: var(--card-accent, var(--border));
+  }
+
+  .card-link::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 85% 0%, var(--card-accent, transparent) 0%, transparent 45%);
+    opacity: 0.14;
+    pointer-events: none;
+  }
+
+  .card-icon{
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .card-icon svg{
+    width: 22px;
+    height: 22px;
+    display: block;
+  }
+
+  .card-copy{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    width: 100%;
+    min-width: 0;
+    /* clears the checkmark, which is absolutely positioned top-right */
+    padding-right: 30px;
+  }
+
+  .card-title{
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    overflow-wrap: anywhere;
+    line-height: 1.25;
+  }
+
+  .card-sub{
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    overflow-wrap: anywhere;
+    line-height: 1.35;
+  }
+
+  .card-sub .arrow{
+    font-size: 12px;
+    transform: translateY(-0.5px);
+    transition: transform 0.15s ease;
+  }
+
+  .card-link:active .card-sub .arrow{
+    transform: translate(2px, -0.5px);
+  }
+
+  .card-instagram{ --card-accent: #e1306c; }
+  .card-x{ --card-accent: #ffffff; }
+  .card-linkedin{ --card-accent: #0a66c2; }
+  .card-tiktok{ --card-accent: #25f4ee; }
+
+  /* ============================================================
+     FOOTER NOTE
+     ============================================================ */
+  .footer-note{
+    margin-top: auto;
+    text-align: center;
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--text-tertiary);
+    padding-top: 8px;
+  }
+
+  .footer-note strong{
+    color: var(--text-secondary);
+  }
+
+  /* ============================================================
+     MODAL OVERLAY
+     ============================================================ */
+  .modal-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(22px) saturate(140%);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+    z-index: 999;
+  }
+
+  .modal-overlay.is-visible{
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal-box{
+    width: 100%;
+    max-width: 340px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 34px 26px 26px;
+    text-align: center;
+    transform: translateY(16px) scale(0.97);
+    transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  }
+
+  .modal-overlay.is-visible .modal-box{
+    transform: translateY(0) scale(1);
+  }
+
+  .modal-icon{
+    font-size: 40px;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .modal-title{
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0 0 10px;
+    color: var(--text-primary);
+  }
+
+  .modal-body{
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0 0 26px;
+  }
+
+  .modal-dismiss{
+    appearance: none;
+    border: none;
+    width: 100%;
+    padding: 15px 0;
+    border-radius: var(--radius-sm);
+    background: var(--text-primary);
+    color: #000000;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform 0.12s ease;
+  }
+
+  .modal-dismiss:active{
+    transform: scale(0.96);
+  }
+
+  /* ============================================================
+     SPRINT STATUS
+     ============================================================ */
+  .section-head{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0 4px 12px;
+  }
+
+  .section-head .section-label{ margin: 0; }
+
+  .sprint-status{
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .sprint-status.is-complete{ color: var(--timer-green); }
+
+  /* ============================================================
+     CHANNEL CLEARED CHECKBOX
+     ============================================================ */
+  .card-check{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1.5px solid #2b2b2e;
+    background: var(--surface-2);
+    color: transparent;
+    font-size: 14px;
+    font-weight: 900;
+    line-height: 1;
+    cursor: pointer;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.12s ease;
+  }
+
+  .card-check:active{ transform: scale(0.88); }
+
+  .card.is-cleared .card-check{
+    background: var(--timer-green);
+    border-color: var(--timer-green);
+    color: #000000;
+  }
+
+  .card.is-cleared .card-link{
+    opacity: 0.4;
+  }
+
+  /* ============================================================
+     IDEA SANDBOX
+     ============================================================ */
+  .sandbox{ margin-bottom: 24px; }
+
+  .sandbox-form{
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .sandbox-input{
+    flex: 1;
+    min-width: 0;
+    appearance: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 13px 14px;
+    color: var(--text-primary);
+    /* 16px keeps iOS Safari from zooming the page when the field is focused */
+    font-size: 16px;
+    font-family: inherit;
+    transition: border-color 0.2s ease;
+  }
+
+  .sandbox-input::placeholder{ color: var(--text-tertiary); }
+  .sandbox-input:focus{
+    outline: none;
+    border-color: #3a3a3f;
+  }
+
+  .sandbox-add{
+    flex: 0 0 52px;
+    appearance: none;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--text-primary);
+    color: #000000;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform 0.12s ease, opacity 0.2s ease;
+  }
+
+  .sandbox-add:active{ transform: scale(0.94); }
+  .sandbox-add:disabled{ opacity: 0.3; cursor: default; }
+
+  .idea-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .idea-item{
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 13px 14px;
+    margin-bottom: 8px;
+  }
+
+  .idea-text{
+    flex: 1;
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text-primary);
+    overflow-wrap: anywhere;
+  }
+
+  .idea-remove{
+    flex: 0 0 auto;
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: var(--text-tertiary);
+    font-size: 19px;
+    line-height: 1;
+    padding: 2px 2px 4px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.2s ease, transform 0.12s ease;
+  }
+
+  .idea-remove:active{
+    color: var(--timer-red);
+    transform: scale(0.85);
+  }
+
+  .idea-empty{
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-tertiary);
+    text-align: center;
+    padding: 16px 8px;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+  }
+
+  .chan-tabs{
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-bottom: 14px;
+    padding-bottom: 2px;
+  }
+  .chan-tabs::-webkit-scrollbar{ display: none; }
+
+  .chan-tab{
+    appearance: none; font-family: inherit; cursor: pointer; white-space: nowrap;
+    font-size: 12.5px; font-weight: 700; letter-spacing: -.01em;
+    padding: 8px 13px; border-radius: 999px;
+    background: var(--surface); color: var(--text-secondary);
+    border: 1px solid var(--border);
+    transition: background .2s ease, color .2s ease, border-color .2s ease, transform .12s ease;
+  }
+  .chan-tab:active{ transform: scale(.94); }
+  .chan-tab[aria-selected="true"]{
+    background: var(--chan, var(--text-primary));
+    color: #000;
+    border-color: transparent;
+  }
+  .chan-tab .dot{
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--chan, #fff); margin-right: 6px; vertical-align: middle;
+  }
+  .chan-tab[aria-selected="true"] .dot{ background: #000; }
+
+  .keystone{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--timer-green);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 13px 15px;
+    margin-bottom: 14px;
+  }
+  .keystone .ks-tag{
+    display: block; font-size: 10.5px; font-weight: 800; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--timer-green); margin-bottom: 5px;
+  }
+  .keystone .ks-t{
+    display: block; font-size: 13.5px; line-height: 1.5; color: var(--text-primary);
+  }
+  .keystone .ks-micro{
+    display: block; font-size: 12px; line-height: 1.5; color: var(--text-tertiary); margin-top: 6px;
+  }
+
+  .countdown{
+    display: block;
+    text-decoration: none;
+    background: linear-gradient(135deg, rgba(225,48,108,.16), rgba(255,159,10,.10));
+    border: 1px solid rgba(225,48,108,.42);
+    border-radius: var(--radius-sm);
+    padding: 13px 15px;
+    margin-bottom: 14px;
+    transition: transform .12s ease;
+  }
+  .countdown:active{ transform: scale(.98); }
+  .countdown .cd-n{
+    display: block;
+    font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+    color: #ff7ba8; margin-bottom: 3px;
+  }
+  .countdown .cd-t{
+    display: block; font-size: 14px; font-weight: 600; color: var(--text-primary); line-height: 1.4;
+  }
+
+  .variants{
+    display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px;
+  }
+  .variant{
+    appearance: none; font-family: inherit; cursor: pointer;
+    font-size: 12px; font-weight: 600; letter-spacing: -.01em;
+    padding: 7px 11px; border-radius: 999px;
+    background: var(--surface-2); color: var(--text-secondary);
+    border: 1px solid var(--border);
+    transition: background .2s ease, color .2s ease, transform .12s ease;
+  }
+  .variant:active{ transform: scale(.94); }
+  .variant[aria-selected="true"]{
+    background: var(--text-primary); color: #000; border-color: transparent;
+  }
+
+  .guard{
+    font-size: 12px; line-height: 1.5; color: #ffc978;
+    background: rgba(255,159,10,.08);
+    border-left: 2px solid rgba(255,159,10,.5);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 12px; margin: 0 0 14px;
+  }
+
+  /* ============================================================
+     MODE TABS
+     ============================================================ */
+  .tabs{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 4px;
+    margin-bottom: 22px;
+  }
+
+  .tab{
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    padding: 11px 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background .2s ease, color .2s ease;
+  }
+
+  .tab[aria-selected="true"]{
+    background: var(--surface-2);
+    color: var(--text-primary);
+    box-shadow: 0 1px 0 rgba(255,255,255,.04) inset;
+  }
+
+  /* ============================================================
+     POST PLAN
+     ============================================================ */
+  .post-card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 18px;
+    margin-bottom: 14px;
+    box-shadow: var(--shadow-card);
+  }
+
+  .post-meta{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .chip{
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 5px 9px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    color: var(--text-secondary);
+  }
+
+  .chip-brand{
+    color: #000;
+    border-color: transparent;
+    background: var(--brand-accent, var(--text-primary));
+  }
+
+  .post-topic{
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    line-height: 1.3;
+    margin: 0 0 12px;
+  }
+
+  .post-text{
+    background: var(--bg);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .post-len{
+    font-size: 11.5px;
+    color: var(--text-tertiary);
+    font-variant-numeric: tabular-nums;
+    margin: 0 0 14px;
+  }
+
+  .post-len.over{ color: var(--timer-red); font-weight: 600; }
+
+  .post-actions{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-bottom: 9px;
+  }
+
+  .btn{
+    appearance: none;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 14px 0;
+    font-family: inherit;
+    font-size: 14.5px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: transform .12s ease, background .2s ease, color .2s ease;
+  }
+
+  .btn:active{ transform: scale(.96); }
+
+  .btn-primary{ background: var(--text-primary); color: #000; }
+  .btn-primary.is-copied{ background: var(--timer-green); }
+
+  .btn-secondary{
+    background: var(--surface-2);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+  }
+
+  .btn-done{
+    width: 100%;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px dashed var(--border);
+  }
+
+  .btn-done.is-done{
+    border-style: solid;
+    border-color: var(--timer-green);
+    color: var(--timer-green);
+  }
+
+  .prefill-note{
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-tertiary);
+    margin: 12px 0 0;
+  }
+
+  .streak-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+
+  .streak-n{
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+
+  .streak-label{
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    text-align: right;
+  }
+
+  .up-next{
+    font-size: 12.5px;
+    color: var(--text-tertiary);
+    text-align: center;
+    margin: 0;
+  }
+
+  .up-next strong{ color: var(--text-secondary); font-weight: 600; }
+
+  @media (max-width: 360px){
+    .timer-display{ font-size: 54px; }
+    .card-link{ min-height: 122px; padding: 16px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="header">
+    <p class="eyebrow">Mission Control</p>
+    <h1>The Content Operator Hub</h1>
+  </header>
+
+  <!-- ============================================================
+       FOCUS TIMER
+       ============================================================ -->
+  <section class="timer-card" id="timerCard">
+    <p class="timer-label" id="timerLabel">Batching Window</p>
+    <p class="timer-display" id="timerDisplay">15:00</p>
+
+    <div class="timer-progress-track">
+      <div class="timer-progress-fill" id="timerProgressFill"></div>
+    </div>
+
+    <div class="timer-controls">
+      <button type="button" class="timer-btn timer-btn-primary" id="startPauseBtn">Start</button>
+      <button type="button" class="timer-btn timer-btn-secondary" id="resetBtn">Reset</button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DEEP LINK GRID
+       ============================================================ -->
+  <!-- ============================================================
+       MODE TABS
+       ============================================================ -->
+  <div class="tabs" role="tablist">
+    <button type="button" class="tab" id="tabEngage" role="tab" aria-selected="true" aria-controls="viewEngage">Engage</button>
+    <button type="button" class="tab" id="tabPost" role="tab" aria-selected="false" aria-controls="viewPost">Post</button>
+  </div>
+
+  <!-- ============================================================
+       POST PLAN
+       ============================================================ -->
+  <section id="viewPost" role="tabpanel" aria-labelledby="tabPost" hidden>
+
+    <div class="streak-row">
+      <span class="streak-n" id="streakN">0</span>
+      <span class="streak-label" id="streakLabel">sessions logged<br>no chain to break</span>
+    </div>
+
+
+    <div class="keystone">
+      <span class="ks-tag">First · 30 min</span>
+      <span class="ks-t">BreakPoint outreach. Emails to labels and mixers book sessions, posts dont. Outreach outranks posting, every day.</span>
+      <span class="ks-micro">Smallest version: open the drafts folder, read the Tony Kiewel email once, press send. Thats the whole block if it needs to be.</span>
+    </div>
+
+    <a class="countdown" id="countdown" href="#" hidden></a>
+
+    <div class="post-card" id="postCard">
+      <div class="variants" id="variants" hidden></div>
+      <div class="post-meta">
+        <span class="chip chip-brand" id="postBrand">Brand</span>
+        <span class="chip" id="postPlatform">Platform</span>
+      </div>
+      <h3 class="post-topic" id="postTopic">Topic</h3>
+      <p class="guard" id="guard" hidden></p>
+      <div class="post-text" id="postText">Post text</div>
+      <p class="post-len" id="postLen"></p>
+
+      <div class="post-actions">
+        <button type="button" class="btn btn-primary" id="copyBtn">Copy text</button>
+        <a class="btn btn-secondary" id="goBtn" href="#" rel="noopener noreferrer">Open</a>
+      </div>
+
+      <button type="button" class="btn btn-done" id="doneBtn">Mark posted</button>
+      <p class="prefill-note" id="prefillNote"></p>
+    </div>
+
+    <p class="up-next" id="upNext"></p>
+  </section>
+
+  <!-- ============================================================
+       ENGAGE
+       ============================================================ -->
+  <section id="viewEngage" role="tabpanel" aria-labelledby="tabEngage">
+
+  <div class="chan-tabs" id="chanTabs" role="tablist"></div>
+
+  <div class="section-head">
+    <p class="section-label" id="sweepLabel">Sweep</p>
+    <span class="sprint-status" id="sprintStatus">0 of 4 cleared</span>
+  </div>
+
+  <div class="grid" id="tileGrid"></div>
+
+
+  <!-- ============================================================
+       IDEA SANDBOX
+       ============================================================ -->
+  <section class="sandbox">
+    <div class="section-head">
+      <p class="section-label">Idea Sandbox</p>
+      <span class="sprint-status" id="ideaCount">0 held</span>
+    </div>
+
+    <form class="sandbox-form" id="sandboxForm" autocomplete="off">
+      <input
+        class="sandbox-input"
+        id="sandboxInput"
+        type="text"
+        maxlength="280"
+        placeholder="Dump an idea before it escapes&hellip;"
+        aria-label="New idea"
+        enterkeyhint="done">
+      <button type="submit" class="sandbox-add" id="sandboxAdd" aria-label="Save idea" disabled>+</button>
+    </form>
+
+    <ul class="idea-list" id="ideaList"></ul>
+    <p class="idea-empty" id="ideaEmpty">Nothing parked yet. Capture it here instead of opening an app.</p>
+  </section>
+
+  </section><!-- /viewEngage -->
+
+  <p class="footer-note">Home feeds are not linked on purpose.<br><strong>Engage. Reply. Log off.</strong></p>
+
+</div>
+
+<!-- ============================================================
+     TIMEOUT MODAL
+     ============================================================ -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <span class="modal-icon">&#127793;</span>
+    <p class="modal-title">Batching window closed!</p>
+    <p class="modal-body">Close your tabs, step away, and touch grass.</p>
+    <button type="button" class="modal-dismiss" id="modalDismissBtn">I'm done</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============================================================
+     CONFIG
+     ============================================================ */
+  /* ============================================================
+     THE OPERATION
+     ------------------------------------------------------------
+     Voice rules this copy follows, from the voice guide: no em dashes,
+     dropped apostrophes are fine, uneven sentence lengths, specific
+     numbers over adjectives, slightly self-deprecating, never asks for
+     the follow. CTAs only on game-side posts, never on @breakpointadam
+     and never on LinkedIn.
+     ============================================================ */
+  var CHANNELS = {
+    wu: { name: "Warped",      accent: "#25f4ee" },
+    bp: { name: "BreakPoint",  accent: "#ff9f0a" },
+    nl: { name: "THE NEW LAW", accent: "#e1306c" },
+    jb: { name: "Work search", accent: "#9aa0a6" }
+  };
+
+  /* The account each post lands on, and the line it must not cross. */
+  var ACCOUNTS = {
+    bpadam:   { at: "@breakpointadam",  guard: "Craft only. No game announcements, no wishlist CTA, no crypto. If it needs a link to work it doesnt belong here." },
+    tiktok:   { at: "@adam_warped",     guard: "Zero crypto. Hook in the first half second, start mid action. Text overlay, 80% watch on mute." },
+    x:        { at: "@Adam_Warped",     guard: "Upload video natively, roughly 10x a YouTube link. Token talk goes to Telegram." },
+    linkedin: { at: "LinkedIn",         guard: "Must be defensible to a recruiter. No crypto, no hype language, no CTA." },
+    reddit:   { at: "u/johnyutah",      guard: "Read the sub rules first, every time. Real numbers, never sales. Tue to Thu, 9 to 11am EST." },
+    nlaw:     { at: "The New Law",      guard: "Artist voice, not founder voice. Keep the game completely out of it. Justin co-owns this story." },
+    steam:    { at: "Steam",            guard: "Every patch and milestone. Keep latest news pinned." }
+  };
+
+  var TILES = {
+    wu: [
+      { n: "r/gamingsuggestions", t: "co-op PvE", u: "https://www.reddit.com/r/gamingsuggestions/search/?q=co-op+pve&restrict_sr=1&sort=new&t=week" },
+      { n: "r/gamingsuggestions", t: "looter shooter", u: "https://www.reddit.com/r/gamingsuggestions/search/?q=looter+shooter&restrict_sr=1&sort=new&t=week" },
+      { n: "r/gamingsuggestions", t: "Destiny", u: "https://www.reddit.com/r/gamingsuggestions/search/?q=Destiny&restrict_sr=1&sort=new&t=week" },
+      { n: "r/ShouldIBuyThisGame", t: "co-op", u: "https://www.reddit.com/r/ShouldIbuythisgame/search/?q=co-op&restrict_sr=1&sort=new&t=week" },
+      { n: "r/patientgamers", t: "co-op PvE", u: "https://www.reddit.com/r/patientgamers/search/?q=co-op+pve&restrict_sr=1&sort=new&t=month" },
+      { n: "after Destiny 2", t: "google \u00b7 week", u: "https://www.google.com/search?q=site%3Areddit.com+what+to+play+after+Destiny+2&tbs=qdr:w" },
+      { n: "alternative to Destiny 2", t: "google \u00b7 week", u: "https://www.google.com/search?q=site%3Areddit.com+alternative+to+Destiny+2&tbs=qdr:w" },
+      { n: "like Helldivers", t: "google \u00b7 year", u: "https://www.google.com/search?q=site%3Areddit.com+games+like+Helldivers&tbs=qdr:y" },
+      { n: "like Deep Rock", t: "google \u00b7 year", u: "https://www.google.com/search?q=site%3Areddit.com+games+like+Deep+Rock+Galactic&tbs=qdr:y" },
+      { n: "like Warframe", t: "google \u00b7 year", u: "https://www.google.com/search?q=site%3Areddit.com+games+like+Warframe&tbs=qdr:y" },
+      { n: "like Everspace 2", t: "google \u00b7 year", u: "https://www.google.com/search?q=site%3Areddit.com+games+like+Everspace+2&tbs=qdr:y" },
+      { n: "like No Man\u2019s Sky", t: "google \u00b7 year", u: "https://www.google.com/search?q=site%3Areddit.com+games+like+No+Mans+Sky&tbs=qdr:y" },
+      { n: "co-op like XCOM", t: "google \u00b7 year", u: "https://www.google.com/search?q=site%3Areddit.com+co-op+games+like+XCOM&tbs=qdr:y" },
+      { n: "free co-op looter", t: "google \u00b7 year", u: "https://www.google.com/search?q=site%3Areddit.com+free+co-op+looter+shooter&tbs=qdr:y" },
+      { n: "\u201cWarped Universe\u201d", t: "every mention", u: "https://www.google.com/search?q=site%3Areddit.com+%22Warped+Universe%22&tbs=qdr:w" },
+      { n: "r/warpeduniverse", t: "your own sub", u: "https://www.reddit.com/r/warpeduniverse/new/" },
+      { n: "r/gamedev", t: "numbers + lessons", u: "https://www.reddit.com/r/gamedev/" },
+      { n: "r/IndieDev", t: "process posts", u: "https://www.reddit.com/r/IndieDev/" },
+      { n: "r/LowSodiumDestiny", t: "proven \u00b7 43k views", u: "https://www.reddit.com/r/LowSodiumDestiny/new/" },
+      { n: "r/CoopGaming", t: "posting ok", u: "https://www.reddit.com/r/CoopGaming/" },
+      { n: "r/spacesimgames", t: "posting ok", u: "https://www.reddit.com/r/spacesimgames/" },
+      { n: "r/helldivers2", t: "comment only", u: "https://www.reddit.com/r/helldivers2/" },
+      { n: "r/Warframe", t: "comment only", u: "https://www.reddit.com/r/Warframe/" },
+      { n: "r/DeepRockGalactic", t: "read the room", u: "https://www.reddit.com/r/DeepRockGalactic/" },
+      { n: "r/worldbuilding", t: "lore \u00b7 Syd Mead", u: "https://www.reddit.com/r/worldbuilding/" },
+      { n: "r/xcom", t: "turn-based mode", u: "https://www.reddit.com/r/xcom/" },
+      { n: "r/SoundDesign", t: "craft posts", u: "https://www.reddit.com/r/SoundDesign/" },
+      { n: "r/GameAudio", t: "UE5, no middleware", u: "https://www.reddit.com/r/GameAudio/" },
+      { n: "Steam page", t: "keep news pinned", u: "https://store.steampowered.com/search/?term=Warped+Universe" },
+      { n: "F5Bot", t: "background alerts", u: "https://f5bot.com/" }
+    ],
+    bp: [
+      { n: "worth paying for", t: "google \u00b7 month", u: "https://www.google.com/search?q=site%3Areddit.com+%22worth+paying+for+mastering%22&tbs=qdr:m" },
+      { n: "engineer rec", t: "google \u00b7 month", u: "https://www.google.com/search?q=site%3Areddit.com+%22mastering+engineer%22+recommendation&tbs=qdr:m" },
+      { n: "what does it cost", t: "google \u00b7 month", u: "https://www.google.com/search?q=site%3Areddit.com+%22how+much+does+mastering+cost%22&tbs=qdr:m" },
+      { n: "looking for mastering", t: "google \u00b7 week", u: "https://www.google.com/search?q=site%3Areddit.com+%22looking+for+a+mastering+engineer%22&tbs=qdr:w" },
+      { n: "mastering my album", t: "google \u00b7 week", u: "https://www.google.com/search?q=site%3Areddit.com+%22mastering+my+album%22&tbs=qdr:w" },
+      { n: "r/audioengineering", t: "answer, no links", u: "https://www.reddit.com/r/audioengineering/search/?q=mastering+engineer&restrict_sr=1&sort=new&t=week" },
+      { n: "r/WeAreTheMusicMakers", t: "answer, no links", u: "https://www.reddit.com/r/WeAreTheMusicMakers/search/?q=mastering&restrict_sr=1&sort=new&t=week" },
+      { n: "r/musicproduction", t: "answer, no links", u: "https://www.reddit.com/r/musicproduction/search/?q=mastering&restrict_sr=1&sort=new&t=week" },
+      { n: "r/edmproduction", t: "sound design", u: "https://www.reddit.com/r/edmproduction/search/?q=mastering&restrict_sr=1&sort=new&t=week" },
+      { n: "r/WeAreTheMusicMakers", t: "career + craft", u: "https://www.reddit.com/r/WeAreTheMusicMakers/" },
+      { n: "Discogs credits", t: "180+ \u00b7 anniversaries", u: "https://www.discogs.com/search/?q=BreakPoint+Mastering&type=all" },
+      { n: "muso.ai", t: "top 1%", u: "https://muso.ai/" },
+      { n: "breakpointmastering.com", t: "the site", u: "https://breakpointmastering.com/" },
+      { n: "F5Bot", t: "background alerts", u: "https://f5bot.com/" },
+      { n: "Google Alerts", t: "background alerts", u: "https://www.google.com/alerts" }
+    ],
+    nl: [
+      { n: "Bandcamp", t: "followers + messages", u: "https://thenewlaw.bandcamp.com/" },
+      { n: "The New Law (2006)", t: "the debut \u00b7 Sep 18", u: "https://thenewlaw.bandcamp.com/album/the-new-law" },
+      { n: "High Noon (2009)", t: "KEXP: near perfect", u: "https://thenewlaw.bandcamp.com/album/high-noon" },
+      { n: "The Fifty Year Storm", t: "2012 \u00b7 most rated", u: "https://thenewlaw.bandcamp.com/album/the-fifty-year-storm-2" },
+      { n: "A Bull in the Woods", t: "2018 \u00b7 most recent", u: "https://thenewlaw.bandcamp.com/album/a-bull-in-the-woods" },
+      { n: "r/triphop", t: "revival is real", u: "https://www.reddit.com/r/triphop/new/" },
+      { n: "r/downtempo", t: "revival is real", u: "https://www.reddit.com/r/downtempo/new/" },
+      { n: "every mention", t: "google \u00b7 month", u: "https://www.google.com/search?q=%22The+New+Law%22+trip+hop+Straney&tbs=qdr:m" },
+      { n: "mentions on Reddit", t: "google \u00b7 month", u: "https://www.google.com/search?q=site%3Areddit.com+%22The+New+Law%22+trip+hop&tbs=qdr:m" },
+      { n: "Last.fm", t: "listeners", u: "https://www.last.fm/music/The+New+Law" },
+      { n: "Spotify", t: "5,113 followers", u: "https://open.spotify.com/search/The%20New%20Law" }
+    ],
+    jb: [
+      { n: "LinkedIn jobs", t: "audio \u00b7 games \u00b7 QA", u: "https://www.linkedin.com/jobs/" },
+      { n: "audio jobs", t: "google \u00b7 week", u: "https://www.google.com/search?q=%22audio+director%22+OR+%22sound+designer%22+remote+jobs&tbs=qdr:w" },
+      { n: "QA lead roles", t: "google \u00b7 week", u: "https://www.google.com/search?q=%22QA+lead%22+remote+jobs&tbs=qdr:w" },
+      { n: "F5Bot", t: "background alerts", u: "https://f5bot.com/" },
+      { n: "Google Alerts", t: "background alerts", u: "https://www.google.com/alerts" }
+    ]
+  };
+
+  /* Dated moments outrank the weekly rhythm. */
+  var DATED = {
+    "2026-09-18": {
+      ch: "nl", mins: 60, title: "20 years of The New Law",
+      brief: "The debut came out Sep 18 2006. Four posts, four accounts, one day. Zero budget and zero footage needed.",
+      variants: [
+        { acct: "nlaw", label: "Bandcamp", text:
+"20 years ago today.\n\nThe New Law came out Sep 18 2006. Me and Justin, a sampler, a sax, and whatever else we could find.\n\nWe havent put anything out since 2018. No dramatic reason, life just went other directions.\n\nIve been back through the old sessions for the anniversary and theres more in there than i remembered. Working on something.\n\nNothing to buy yet. Just wanted to say twenty years, and that we read every single letter anyone ever sent us about these records." },
+        { acct: "bpadam", label: "Instagram", text:
+"Twenty years ago today The New Law came out. Me and Justin Neff, mostly in a bedroom.\n\nThat record is the reason BreakPoint exists, which i dont think ive ever actually said out loud. Alex Ruder was spinning us on KEXP back then. I told him if he ever needed anyone to master something i was about to start doing that. He was just getting Hush Hush going. I did their second release. Then the one after that. Then it just kept going.\n\nFifteen years and 225 releases later and all of it traces back to a record two friends made because they felt like it.\n\nJustin, thanks for the twenty years." },
+        { acct: "linkedin", label: "LinkedIn", text:
+"Twenty years ago today a record i made with a friend came out.\n\nPunk bands as a kid. Drum and bass in college, which turned into DJing, which turned into producing. Then The New Law with Justin Neff in 2006.\n\nI started mastering because of that band. Somebody had to do it and it turned out i liked that part more than making the records.\n\nThat became BreakPoint Mastering in 2011. Fifteen years, 225 releases, labels like Sub Pop and Kill Rock Stars. Then game audio. Then running a studio.\n\nSame job the whole time if im honest. Get the sound right. The medium keeps changing and the work doesnt.\n\nTwenty years is a strange number to look at." },
+        { acct: "reddit", label: "r/triphop", text:
+"Our first record turned 20 today. Some numbers from a project nobody has promoted in 8 years.\n\nThe New Law, trip hop duo out of Seattle. First album Sep 18 2006, four albums total, last one 2018, then we stopped.\n\nWhere it sits now with zero promotion since then:\n\n- 5,113 Spotify followers\n- 2,170 monthly listeners\n- Get Your Gun sitting at 912,904 plays\n- roughly 1.5M across the top five tracks\n\nThat follower to listener ratio is backwards and it took me an embarrassingly long time to work out what it meant. Active artists have far more monthly listeners than followers. We have the opposite. So about 5,000 people opted in at some point and have had nothing to open since 2018.\n\nIts not a dead audience. Its a mailing list i forgot i owned.\n\nAnyway. Twenty years. Might do something about that." }
+      ]
+    }
+  };
+
+  var WEEK = {
+    1: { ch: "wu", mins: 90, title: "Craft post", acct: "reddit",
+         brief: "Sound design, an art process, or a dev lesson. Nobody else on gaming TikTok shows vocoder chains turning mechanical samples into alien sounds. Thats the moat.",
+         idea: "Making grenade sounds with my son. Recorded, not sampled. Source object, raw take, layers, then the sound in game. Decide before filming whether hes on camera or just hands and voice.\n\nI can write this one properly once you tell me what you actually recorded. Without that its invented, and r/sounddesign will smell it.",
+         where: "video · r/sounddesign · r/gamedev · LinkedIn" },
+    2: { ch: "bp", mins: 90, title: "No post today", acct: "",
+         brief: "Deep block on BreakPoint. Outreach outranks posting, always. Emails to labels and mixers book sessions, posts dont.",
+         idea: "", where: "" },
+    3: { ch: "wu", mins: 90, title: "Fan-sub post", acct: "reddit",
+         brief: "Be a fan first. Rotate the sub, never the same one twice a month, never lead with a store link. r/games took 25,000 views and removed it, so read the rules every time.",
+         idea: "r/LowSodiumDestiny is proven at 43k views. r/CoOpGaming and r/spacesimgames accept posts. r/Warframe and r/helldivers2 are comment only.\n\nTell me which sub and what the post is reacting to and ill write it.",
+         where: "r/LowSodiumDestiny · r/CoOpGaming · r/spacesimgames" },
+    4: { ch: "wu", mins: 15, title: "Steam announcement", acct: "steam",
+         brief: "Even a small one. It stops the store page going stale, and gaps in the history look worse than a late post.",
+         idea: "Ads are off, visibility is down. This is the free surface that still works while co-op cooks. Post what actually moved. Numbers first, no launch hype, and if the week was slow just say it was slow.",
+         where: "Steam · IndieDB" },
+    5: { ch: "nl", mins: 15, title: "EP work-in-progress clip", acct: "nlaw",
+         brief: "Sixty seconds, a phone, a DAW window. Same format as the Warped sound design posts, which are the highest upvoted things you make anywhere.",
+         idea: "Dont wait until the EP is finished to have an audience for it. 5,113 people already opted in and have had nothing to open since 2018.",
+         where: "Bandcamp · Facebook group · r/audioengineering" },
+    6: { ch: "nl", mins: 90, title: "Studio block", acct: "",
+         brief: "Ninety minutes on the EP. No posting obligation.",
+         idea: "", where: "" },
+    0: { ch: "wu", mins: 20, title: "Queue next week", acct: "",
+         brief: "Pick Mondays craft post and Wednesdays fan-sub post now, so Monday has no thinking in it. Thats the whole job today.",
+         idea: "", where: "" }
+  };
+
+  var MICRO = "Set a timer for ten minutes and open the file. Not the task, just the file. You can stop when it rings.";
+
+  var DEFAULT_SECONDS = 15 * 60;   // 15 minute default batching window
+  var AMBER_THRESHOLD = 5 * 60;    // under 5:00 remaining -> amber
+  var RED_THRESHOLD = 60;          // under 1:00 remaining -> red + flashing
+  var TICK_MS = 250;               // repaint rate; accuracy comes from the clock
+  var STORAGE_KEY = "surgicalSocialHub.timer.v1";
+  var WORKSPACE_KEY = "contentOperatorHub.workspace.v1";
+
+  /* ============================================================
+     STATE
+     ============================================================ */
+  /* The countdown is derived from the wall clock, never from a tick counter.
+     Mobile browsers throttle (and iOS suspends) timers in background tabs, so
+     counting ticks would stall or drift the moment you tap through to
+     Instagram -- which is precisely when this timer has to stay honest. */
+  var endsAt = null;              // wall-clock ms when the window closes (running only)
+  var pausedRemaining = DEFAULT_SECONDS;  // seconds left while idle/paused
+  var isRunning = false;
+  var hasExpired = false;
+  var intervalId = null;
+
+  /* ============================================================
+     DOM REFS
+     ============================================================ */
+  var timerCard = document.getElementById("timerCard");
+  var timerDisplay = document.getElementById("timerDisplay");
+  var timerProgressFill = document.getElementById("timerProgressFill");
+  var startPauseBtn = document.getElementById("startPauseBtn");
+  var resetBtn = document.getElementById("resetBtn");
+  var modalOverlay = document.getElementById("modalOverlay");
+  var modalDismissBtn = document.getElementById("modalDismissBtn");
+  var sprintStatus = document.getElementById("sprintStatus");
+  var cardEls = [];
+  var tileGrid = document.getElementById("tileGrid");
+  var chanTabs = document.getElementById("chanTabs");
+  var viewChannel = null;   // null = follow today, otherwise a pinned channel
+  var sweepLabel = document.getElementById("sweepLabel");
+  var sandboxForm = document.getElementById("sandboxForm");
+  var sandboxInput = document.getElementById("sandboxInput");
+  var sandboxAdd = document.getElementById("sandboxAdd");
+  var ideaList = document.getElementById("ideaList");
+  var ideaEmpty = document.getElementById("ideaEmpty");
+  var ideaCount = document.getElementById("ideaCount");
+
+  /* ============================================================
+     HELPERS
+     ============================================================ */
+  function formatTime(totalSecs){
+    var mins = Math.floor(totalSecs / 60);
+    var secs = totalSecs % 60;
+    var minsStr = mins < 10 ? "0" + mins : "" + mins;
+    var secsStr = secs < 10 ? "0" + secs : "" + secs;
+    return minsStr + ":" + secsStr;
+  }
+
+  function remainingSeconds(){
+    if (isRunning && endsAt !== null){
+      return Math.max(0, Math.ceil((endsAt - Date.now()) / 1000));
+    }
+    return Math.max(0, pausedRemaining);
+  }
+
+  function currentStateClass(){
+    var left = remainingSeconds();
+    if (left <= RED_THRESHOLD) return "state-red";
+    if (left <= AMBER_THRESHOLD) return "state-amber";
+    return "";
+  }
+
+  function applyStateClasses(){
+    var stateClass = currentStateClass();
+
+    timerDisplay.classList.remove("state-amber", "state-red");
+    timerProgressFill.classList.remove("state-amber", "state-red");
+    timerCard.classList.remove("state-amber", "state-red");
+
+    if (stateClass){
+      timerDisplay.classList.add(stateClass);
+      timerProgressFill.classList.add(stateClass);
+      timerCard.classList.add(stateClass);
+    }
+  }
+
+  function render(){
+    var left = remainingSeconds();
+    timerDisplay.textContent = formatTime(left);
+    timerProgressFill.style.width = ((left / DEFAULT_SECONDS) * 100) + "%";
+    applyStateClasses();
+  }
+
+  function syncButton(){
+    startPauseBtn.textContent = isRunning ? "Pause" : "Start";
+    startPauseBtn.classList.toggle("is-running", isRunning);
+  }
+
+  /* ============================================================
+     PERSISTENCE
+     Storage can throw (private browsing, sandboxed iframes such as a
+     Notion embed). The timer must still work for the current page view
+     when it does, so every access is guarded.
+     ============================================================ */
+  function saveState(){
+    try{
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        endsAt: endsAt,
+        pausedRemaining: pausedRemaining,
+        isRunning: isRunning,
+        hasExpired: hasExpired
+      }));
+    } catch (err) { /* storage unavailable - run in-memory only */ }
+  }
+
+  function loadState(){
+    var raw = null;
+    try{
+      raw = window.localStorage.getItem(STORAGE_KEY);
+    } catch (err) { return; }
+
+    if (!raw) return;
+
+    try{
+      var saved = JSON.parse(raw);
+      if (!saved || typeof saved !== "object") return;
+
+      isRunning = saved.isRunning === true;
+      hasExpired = saved.hasExpired === true;
+      endsAt = typeof saved.endsAt === "number" ? saved.endsAt : null;
+      pausedRemaining = typeof saved.pausedRemaining === "number"
+        ? saved.pausedRemaining
+        : DEFAULT_SECONDS;
+
+      // A running session with no deadline is incoherent - fall back to idle.
+      if (isRunning && endsAt === null){
+        isRunning = false;
+        pausedRemaining = DEFAULT_SECONDS;
+      }
+    } catch (err) {
+      endsAt = null;
+      pausedRemaining = DEFAULT_SECONDS;
+      isRunning = false;
+      hasExpired = false;
+    }
+  }
+
+  /* ============================================================
+     TIMER CONTROLS
+     ============================================================ */
+  function startInterval(){
+    if (intervalId !== null) return;
+    intervalId = window.setInterval(tick, TICK_MS);
+  }
+
+  function stopInterval(){
+    if (intervalId !== null){
+      window.clearInterval(intervalId);
+      intervalId = null;
+    }
+  }
+
+  function tick(){
+    render();
+    if (isRunning && remainingSeconds() <= 0){
+      expireTimer();
+    }
+  }
+
+  function expireTimer(){
+    isRunning = false;
+    endsAt = null;
+    pausedRemaining = 0;
+    hasExpired = true;
+    stopInterval();
+    syncButton();
+    render();
+    saveState();
+    showModal();
+  }
+
+  function startTimer(){
+    if (isRunning) return;
+    var secs = pausedRemaining > 0 ? pausedRemaining : DEFAULT_SECONDS;
+    endsAt = Date.now() + (secs * 1000);
+    isRunning = true;
+    hasExpired = false;
+    startInterval();
+    syncButton();
+    render();
+    saveState();
+  }
+
+  function pauseTimer(){
+    if (!isRunning) return;
+    pausedRemaining = remainingSeconds();
+    isRunning = false;
+    endsAt = null;
+    stopInterval();
+    syncButton();
+    render();
+    saveState();
+  }
+
+  function resetTimer(){
+    isRunning = false;
+    endsAt = null;
+    pausedRemaining = DEFAULT_SECONDS;
+    hasExpired = false;
+    stopInterval();
+    syncButton();
+    render();
+    saveState();
+  }
+
+  function toggleStartPause(){
+    if (isRunning){
+      pauseTimer();
+    } else {
+      startTimer();
+    }
+  }
+
+  /* Re-read the clock whenever the tab comes back to the foreground, so
+     returning from Instagram shows the true time left (or the closing
+     modal, if the window ran out while you were away). */
+  function resync(){
+    if (!isRunning) return;
+    render();
+    if (remainingSeconds() <= 0){
+      expireTimer();
+    }
+  }
+
+  /* ============================================================
+     MODAL
+     ============================================================ */
+  function showModal(){
+    modalOverlay.classList.add("is-visible");
+  }
+
+  function hideModal(){
+    modalOverlay.classList.remove("is-visible");
+    resetTimer();
+  }
+
+  /* ============================================================
+     WORKSPACE  --  daily sprint + idea sandbox
+     ============================================================ */
+  var CHANNEL_COUNT = 0;
+  var cleared = {};        // { instagram: true, ... } for the current day
+  var ideas = [];          // [{ id, text }]
+  var sprintDay = "";      // YYYY-MM-DD the `cleared` map belongs to
+
+  /* Local calendar date. Built by hand rather than via toISOString(), which
+     is UTC and would flip the day at the wrong hour for most timezones. */
+  function todayKey(){
+    var d = new Date();
+    var m = d.getMonth() + 1;
+    var day = d.getDate();
+    return d.getFullYear() + "-" + (m < 10 ? "0" : "") + m + "-" + (day < 10 ? "0" : "") + day;
+  }
+
+  function saveWorkspace(){
+    try{
+      window.localStorage.setItem(WORKSPACE_KEY, JSON.stringify({
+        sprintDay: sprintDay,
+        cleared: cleared,
+        ideas: ideas
+      }));
+    } catch (err) { /* storage unavailable - session-only */ }
+  }
+
+  function loadWorkspace(){
+    sprintDay = todayKey();
+
+    var raw = null;
+    try{
+      raw = window.localStorage.getItem(WORKSPACE_KEY);
+    } catch (err) { return; }
+
+    if (!raw) return;
+
+    try{
+      var saved = JSON.parse(raw);
+      if (!saved || typeof saved !== "object") return;
+
+      // The sprint is a *daily* routine: yesterday's ticks start cleared,
+      // but parked ideas are kept until the operator deletes them.
+      if (saved.sprintDay === sprintDay && saved.cleared && typeof saved.cleared === "object"){
+        cleared = saved.cleared;
+      }
+
+      if (Object.prototype.toString.call(saved.ideas) === "[object Array]"){
+        ideas = saved.ideas.filter(function(item){
+          return item && typeof item.text === "string";
+        }).map(function(item){
+          return { id: String(item.id || (Date.now() + Math.random())), text: item.text };
+        });
+      }
+    } catch (err) {
+      cleared = {};
+      ideas = [];
+    }
+  }
+
+  function clearedCount(){
+    var n = 0;
+    for (var i = 0; i < cardEls.length; i++){
+      if (cleared[cardEls[i].getAttribute("data-channel")]) n++;
+    }
+    return n;
+  }
+
+  /* The grid is whichever channel today's block belongs to -- the sweep
+     tiles from the Signal boards, not a fixed set of consumer apps. */
+  function renderChanTabs(active){
+    while (chanTabs.firstChild) chanTabs.removeChild(chanTabs.firstChild);
+    var order = ["bp", "wu", "nl", "jb"];   // BreakPoint first: it pays the bills
+    for (var i = 0; i < order.length; i++){
+      (function(key){
+        var c = CHANNELS[key];
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "chan-tab";
+        b.style.setProperty("--chan", c.accent);
+        b.setAttribute("aria-selected", key === active ? "true" : "false");
+        var dot = document.createElement("span");
+        dot.className = "dot";
+        b.appendChild(dot);
+        b.appendChild(document.createTextNode(c.name + " · " + (TILES[key] || []).length));
+        b.addEventListener("click", function(){
+          viewChannel = key;
+          renderTiles();
+          renderSprint();
+        });
+        chanTabs.appendChild(b);
+      })(order[i]);
+    }
+  }
+
+  function renderTiles(){
+    var plan = todayEntry(0).plan;
+    var key = viewChannel || plan.ch;
+    var chan = CHANNELS[key] || CHANNELS.bp;
+    var tiles = TILES[key] || [];
+    renderChanTabs(key);
+
+    while (tileGrid.firstChild) tileGrid.removeChild(tileGrid.firstChild);
+
+    for (var i = 0; i < tiles.length; i++){
+      var tile = tiles[i];
+      var tileKey = key + ":" + tile.n + ":" + tile.t;
+
+      var card = document.createElement("div");
+      card.className = "card";
+      card.setAttribute("data-channel", tileKey);
+      card.style.setProperty("--card-accent", chan.accent);
+
+      var a = document.createElement("a");
+      a.className = "card-link";
+      a.href = tile.u;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+
+      var copy = document.createElement("div");
+      copy.className = "card-copy";
+      var name = document.createElement("span");
+      name.className = "card-title";
+      name.textContent = tile.n;
+      var sub = document.createElement("span");
+      sub.className = "card-sub";
+      sub.textContent = tile.t;
+      copy.appendChild(name); copy.appendChild(sub);
+      a.appendChild(copy);
+
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "card-check";
+      btn.setAttribute("data-channel", tileKey);
+      btn.setAttribute("aria-pressed", "false");
+      btn.setAttribute("aria-label", "Mark " + tile.n + " swept");
+      btn.textContent = "\u2713";
+      btn.addEventListener("click", function(evt){
+        evt.preventDefault();
+        toggleChannel(evt.currentTarget.getAttribute("data-channel"));
+      });
+
+      card.appendChild(a); card.appendChild(btn);
+      tileGrid.appendChild(card);
+    }
+
+    cardEls = tileGrid.querySelectorAll(".card[data-channel]");
+    CHANNEL_COUNT = cardEls.length;
+    sweepLabel.textContent = chan.name + (key === plan.ch ? " sweep · today" : " sweep");
+  }
+
+  function renderSprint(){
+    for (var i = 0; i < cardEls.length; i++){
+      var card = cardEls[i];
+      var isCleared = cleared[card.getAttribute("data-channel")] === true;
+      card.classList.toggle("is-cleared", isCleared);
+      var btn = card.querySelector(".card-check");
+      if (btn) btn.setAttribute("aria-pressed", isCleared ? "true" : "false");
+    }
+
+    var done = clearedCount();
+    var all = done === CHANNEL_COUNT;
+    sprintStatus.textContent = all ? "All clear — log off" : done + " of " + CHANNEL_COUNT + " cleared";
+    sprintStatus.classList.toggle("is-complete", all);
+  }
+
+  function toggleChannel(name){
+    cleared[name] = !cleared[name];
+    if (!cleared[name]) delete cleared[name];
+    renderSprint();
+    saveWorkspace();
+  }
+
+  /* Ideas are rendered as text nodes, never as markup, so an idea containing
+     angle brackets stays a harmless string. */
+  function renderIdeas(){
+    while (ideaList.firstChild){
+      ideaList.removeChild(ideaList.firstChild);
+    }
+
+    for (var i = 0; i < ideas.length; i++){
+      var idea = ideas[i];
+
+      var li = document.createElement("li");
+      li.className = "idea-item";
+
+      var span = document.createElement("span");
+      span.className = "idea-text";
+      span.textContent = idea.text;
+
+      var remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "idea-remove";
+      remove.setAttribute("data-id", idea.id);
+      remove.setAttribute("aria-label", "Delete idea");
+      remove.textContent = "×";
+
+      li.appendChild(span);
+      li.appendChild(remove);
+      ideaList.appendChild(li);
+    }
+
+    ideaEmpty.hidden = ideas.length > 0;
+    ideaCount.textContent = ideas.length + " held";
+  }
+
+  function addIdea(text){
+    var trimmed = text.replace(/\s+/g, " ").trim();
+    if (!trimmed) return;
+
+    ideas.unshift({
+      id: String(Date.now()) + "-" + Math.random().toString(36).slice(2, 8),
+      text: trimmed.slice(0, 280)
+    });
+
+    if (ideas.length > 200) ideas.length = 200;
+
+    renderIdeas();
+    saveWorkspace();
+  }
+
+  function removeIdea(id){
+    ideas = ideas.filter(function(idea){ return idea.id !== id; });
+    renderIdeas();
+    saveWorkspace();
+  }
+
+  /* ============================================================
+     POST PLAN
+     ============================================================ */
+  var PLAN_KEY = "contentOperatorHub.posting.v1";
+  var LIMITS = { x: 280, linkedin: 3000, instagram: 2200, tiktok: 2200 };
+
+  var logged = [];   // ISO day strings on which a post was marked done
+
+  var tabEngage = document.getElementById("tabEngage");
+  var tabPost = document.getElementById("tabPost");
+  var viewEngage = document.getElementById("viewEngage");
+  var viewPost = document.getElementById("viewPost");
+  var postBrand = document.getElementById("postBrand");
+  var postPlatform = document.getElementById("postPlatform");
+  var postTopic = document.getElementById("postTopic");
+  var postText = document.getElementById("postText");
+  var postLen = document.getElementById("postLen");
+  var copyBtn = document.getElementById("copyBtn");
+  var goBtn = document.getElementById("goBtn");
+  var doneBtn = document.getElementById("doneBtn");
+  var prefillNote = document.getElementById("prefillNote");
+  var variantsEl = document.getElementById("variants");
+  var guardEl = document.getElementById("guard");
+  var countdownEl = document.getElementById("countdown");
+  var streakN = document.getElementById("streakN");
+  var streakLabel = document.getElementById("streakLabel");
+  var upNext = document.getElementById("upNext");
+
+  var DAY_NAMES = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  var variantIx = 0;
+
+  function isoOf(d){
+    var m = d.getMonth() + 1, day = d.getDate();
+    return d.getFullYear() + "-" + (m < 10 ? "0" : "") + m + "-" + (day < 10 ? "0" : "") + day;
+  }
+
+  /* A dated moment outranks the weekly rhythm for that day. */
+  function todayEntry(offset){
+    var d = new Date();
+    if (offset) d.setDate(d.getDate() + offset);
+    var dated = DATED[isoOf(d)];
+    return { day: d.getDay(), plan: dated || WEEK[d.getDay()], dated: !!dated };
+  }
+
+  /* Nearest dated moment still ahead, for the countdown. */
+  function upcoming(){
+    var today = new Date();
+    today = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    var best = null;
+    for (var iso in DATED){
+      if (!Object.prototype.hasOwnProperty.call(DATED, iso)) continue;
+      var bits = iso.split("-");
+      var when = new Date(+bits[0], +bits[1] - 1, +bits[2]);
+      var days = Math.round((when - today) / 86400000);
+      if (days > 0 && (!best || days < best.days)) best = { days: days, iso: iso, ev: DATED[iso] };
+    }
+    return best;
+  }
+
+  function savePlanState(){
+    try{ window.localStorage.setItem(PLAN_KEY, JSON.stringify({ logged: logged })); }
+    catch (err) { /* storage unavailable */ }
+  }
+
+  function loadPlanState(){
+    var raw = null;
+    try{ raw = window.localStorage.getItem(PLAN_KEY); } catch (err) { return; }
+    if (!raw) return;
+    try{
+      var saved = JSON.parse(raw);
+      if (saved && Object.prototype.toString.call(saved.logged) === "[object Array]"){
+        logged = saved.logged.filter(function(d){ return typeof d === "string"; });
+      }
+    } catch (err) { logged = []; }
+  }
+
+  function activeText(plan){
+    if (plan.variants && plan.variants.length){
+      return plan.variants[Math.min(variantIx, plan.variants.length - 1)].text;
+    }
+    return plan.idea || "";
+  }
+
+  function renderVariants(plan){
+    while (variantsEl.firstChild) variantsEl.removeChild(variantsEl.firstChild);
+    var has = !!(plan.variants && plan.variants.length);
+    variantsEl.hidden = !has;
+    if (!has) return;
+
+    for (var i = 0; i < plan.variants.length; i++){
+      (function(ix){
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "variant";
+        b.setAttribute("aria-selected", ix === variantIx ? "true" : "false");
+        b.textContent = plan.variants[ix].label;
+        b.addEventListener("click", function(){ variantIx = ix; renderPost(); });
+        variantsEl.appendChild(b);
+      })(i);
+    }
+  }
+
+  function renderPost(){
+    var today = todayEntry(0);
+    var next = todayEntry(1);
+    var plan = today.plan;
+    var chan = CHANNELS[plan.ch] || CHANNELS.bp;
+    var text = activeText(plan);
+    var hasPost = !!text;
+
+    renderVariants(plan);
+
+    var acctKey = (plan.variants && plan.variants.length)
+      ? plan.variants[Math.min(variantIx, plan.variants.length - 1)].acct
+      : plan.acct;
+    var acct = ACCOUNTS[acctKey];
+
+    postBrand.textContent = chan.name;
+    postBrand.style.setProperty("--brand-accent", chan.accent);
+    // the account chip is noise when it just repeats the brand chip
+    postPlatform.textContent = (acct && acct.at !== chan.name) ? acct.at : plan.mins + " min";
+    postTopic.textContent = plan.title;
+    postText.textContent = text || plan.brief;
+
+    guardEl.hidden = !acct;
+    if (acct) guardEl.textContent = acct.guard;
+
+    postLen.textContent = hasPost ? (text.length + " characters · " + plan.mins + " min block") : "";
+    postLen.classList.remove("over");
+
+    copyBtn.hidden = !hasPost;
+    goBtn.hidden = !hasPost;
+    prefillNote.textContent = hasPost ? plan.brief : MICRO;
+
+    if (hasPost){
+      goBtn.textContent = "Open " + chan.name + " tiles";
+      goBtn.removeAttribute("target");
+      goBtn.href = "#";
+    }
+
+    var doneToday = logged.indexOf(todayKey()) !== -1;
+    doneBtn.textContent = doneToday ? "Logged today ✓" : (hasPost ? "Mark posted" : "Mark block done");
+    doneBtn.classList.toggle("is-done", doneToday);
+
+    streakN.textContent = logged.length;
+    streakLabel.innerHTML = (logged.length === 1 ? "session logged" : "sessions logged") + "<br>no chain to break";
+
+    upNext.innerHTML = "Tomorrow · <strong>" + DAY_NAMES[next.day] + "</strong>: " +
+      next.plan.title + " · " + ((CHANNELS[next.plan.ch] || {}).name || "");
+
+    var soon = upcoming();
+    countdownEl.hidden = !soon;
+    if (soon){
+      while (countdownEl.firstChild) countdownEl.removeChild(countdownEl.firstChild);
+      var n = document.createElement("span");
+      n.className = "cd-n";
+      n.textContent = soon.days === 1 ? "tomorrow" : soon.days + " days out";
+      var t = document.createElement("span");
+      t.className = "cd-t";
+      t.textContent = soon.ev.title + ". " + (soon.ev.variants ? soon.ev.variants.length + " posts ready." : "");
+      countdownEl.appendChild(n);
+      countdownEl.appendChild(t);
+    }
+  }
+
+  /* Clipboard API needs a secure context and a user gesture; fall back to a
+     throwaway textarea where it is unavailable (older iOS, plain http). */
+  function copyText(text){
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function(resolve, reject){
+      try{
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        ta.setSelectionRange(0, text.length);
+        var ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        ok ? resolve() : reject(new Error("copy rejected"));
+      } catch (err) { reject(err); }
+    });
+  }
+
+  function showMode(mode){
+    var posting = mode === "post";
+    tabPost.setAttribute("aria-selected", posting ? "true" : "false");
+    tabEngage.setAttribute("aria-selected", posting ? "false" : "true");
+    viewPost.hidden = !posting;
+    viewEngage.hidden = posting;
+  }
+
+  /* ============================================================
+     EVENTS
+     ============================================================ */
+  tabEngage.addEventListener("click", function(){ showMode("engage"); });
+  tabPost.addEventListener("click", function(){ showMode("post"); });
+
+  goBtn.addEventListener("click", function(evt){
+    evt.preventDefault();
+    showMode("engage");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  copyBtn.addEventListener("click", function(){
+    copyText(activeText(todayEntry(0).plan)).then(function(){
+      copyBtn.textContent = "Copied ✓";
+      copyBtn.classList.add("is-copied");
+      window.setTimeout(function(){
+        copyBtn.textContent = "Copy text";
+        copyBtn.classList.remove("is-copied");
+      }, 1800);
+    }).catch(function(){
+      copyBtn.textContent = "Select it manually";
+      window.setTimeout(function(){ copyBtn.textContent = "Copy text"; }, 2200);
+    });
+  });
+
+  doneBtn.addEventListener("click", function(){
+    var today = todayKey();
+    var at = logged.indexOf(today);
+    if (at === -1){ logged.push(today); } else { logged.splice(at, 1); }
+    savePlanState();
+    renderPost();
+  });
+
+  startPauseBtn.addEventListener("click", toggleStartPause);
+  resetBtn.addEventListener("click", resetTimer);
+  modalDismissBtn.addEventListener("click", hideModal);
+
+  sandboxInput.addEventListener("input", function(){
+    sandboxAdd.disabled = sandboxInput.value.trim() === "";
+  });
+
+  sandboxForm.addEventListener("submit", function(evt){
+    evt.preventDefault();
+    addIdea(sandboxInput.value);
+    sandboxInput.value = "";
+    sandboxAdd.disabled = true;
+  });
+
+  ideaList.addEventListener("click", function(evt){
+    var btn = evt.target.closest(".idea-remove");
+    if (btn) removeIdea(btn.getAttribute("data-id"));
+  });
+
+  document.addEventListener("visibilitychange", function(){
+    if (!document.hidden) resync();
+  });
+  window.addEventListener("focus", resync);
+  window.addEventListener("pageshow", resync);
+
+  /* ============================================================
+     INIT
+     Restore any session left running by a previous page view, so tapping
+     out to a platform and back does not silently hand you a fresh 15:00.
+     ============================================================ */
+  loadState();
+
+  if (isRunning){
+    if (remainingSeconds() <= 0){
+      expireTimer();          // window closed while the tab was away
+    } else {
+      startInterval();
+    }
+  } else if (hasExpired){
+    showModal();              // closing screen was never acknowledged
+  }
+
+  syncButton();
+  render();
+
+  loadWorkspace();
+  renderTiles();
+  renderSprint();
+  renderIdeas();
+  saveWorkspace();   // stamps today's date so a stale sprint cannot linger
+
+  loadPlanState();
+  renderPost();
+  showMode("engage");
+
+})();
+</script>
+
+</body>
+</html>
