@@ -642,6 +642,56 @@
     border-radius: var(--radius-sm);
   }
 
+  .chan-tabs{
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-bottom: 14px;
+    padding-bottom: 2px;
+  }
+  .chan-tabs::-webkit-scrollbar{ display: none; }
+
+  .chan-tab{
+    appearance: none; font-family: inherit; cursor: pointer; white-space: nowrap;
+    font-size: 12.5px; font-weight: 700; letter-spacing: -.01em;
+    padding: 8px 13px; border-radius: 999px;
+    background: var(--surface); color: var(--text-secondary);
+    border: 1px solid var(--border);
+    transition: background .2s ease, color .2s ease, border-color .2s ease, transform .12s ease;
+  }
+  .chan-tab:active{ transform: scale(.94); }
+  .chan-tab[aria-selected="true"]{
+    background: var(--chan, var(--text-primary));
+    color: #000;
+    border-color: transparent;
+  }
+  .chan-tab .dot{
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--chan, #fff); margin-right: 6px; vertical-align: middle;
+  }
+  .chan-tab[aria-selected="true"] .dot{ background: #000; }
+
+  .keystone{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--timer-green);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 13px 15px;
+    margin-bottom: 14px;
+  }
+  .keystone .ks-tag{
+    display: block; font-size: 10.5px; font-weight: 800; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--timer-green); margin-bottom: 5px;
+  }
+  .keystone .ks-t{
+    display: block; font-size: 13.5px; line-height: 1.5; color: var(--text-primary);
+  }
+  .keystone .ks-micro{
+    display: block; font-size: 12px; line-height: 1.5; color: var(--text-tertiary); margin-top: 6px;
+  }
+
   .countdown{
     display: block;
     text-decoration: none;
@@ -939,6 +989,12 @@
     </div>
 
 
+    <div class="keystone">
+      <span class="ks-tag">First · 30 min</span>
+      <span class="ks-t">BreakPoint outreach. Emails to labels and mixers book sessions, posts dont. Outreach outranks posting, every day.</span>
+      <span class="ks-micro">Smallest version: open the drafts folder, read the Tony Kiewel email once, press send. Thats the whole block if it needs to be.</span>
+    </div>
+
     <a class="countdown" id="countdown" href="#" hidden></a>
 
     <div class="post-card" id="postCard">
@@ -968,6 +1024,8 @@
        ENGAGE
        ============================================================ -->
   <section id="viewEngage" role="tabpanel" aria-labelledby="tabEngage">
+
+  <div class="chan-tabs" id="chanTabs" role="tablist"></div>
 
   <div class="section-head">
     <p class="section-label" id="sweepLabel">Sweep</p>
@@ -1056,32 +1114,73 @@
 
   var TILES = {
     wu: [
-      { n: "r/gamingsuggestions", t: "co-op PvE · new",   u: "https://www.reddit.com/r/gamingsuggestions/search/?q=co-op+pve&restrict_sr=1&sort=new&t=week" },
-      { n: "r/ShouldIBuyThisGame", t: "co-op · new",      u: "https://www.reddit.com/r/ShouldIbuythisgame/search/?q=co-op&restrict_sr=1&sort=new&t=week" },
-      { n: "after Destiny 2",     t: "google · past week", u: "https://www.google.com/search?q=site%3Areddit.com+what+to+play+after+Destiny+2&tbs=qdr:w" },
-      { n: "like Helldivers",     t: "google · past year", u: "https://www.google.com/search?q=site%3Areddit.com+games+like+Helldivers&tbs=qdr:y" },
-      { n: "“Warped Universe”", t: "every mention", u: "https://www.google.com/search?q=site%3Areddit.com+%22Warped+Universe%22&tbs=qdr:w" },
-      { n: "r/warpeduniverse",    t: "your own sub",         u: "https://www.reddit.com/r/warpeduniverse/new/" }
+      { n: "r/gamingsuggestions", t: "co-op PvE", u: "https://www.reddit.com/r/gamingsuggestions/search/?q=co-op+pve&restrict_sr=1&sort=new&t=week" },
+      { n: "r/gamingsuggestions", t: "looter shooter", u: "https://www.reddit.com/r/gamingsuggestions/search/?q=looter+shooter&restrict_sr=1&sort=new&t=week" },
+      { n: "r/gamingsuggestions", t: "Destiny", u: "https://www.reddit.com/r/gamingsuggestions/search/?q=Destiny&restrict_sr=1&sort=new&t=week" },
+      { n: "r/ShouldIBuyThisGame", t: "co-op", u: "https://www.reddit.com/r/ShouldIbuythisgame/search/?q=co-op&restrict_sr=1&sort=new&t=week" },
+      { n: "r/patientgamers", t: "co-op PvE", u: "https://www.reddit.com/r/patientgamers/search/?q=co-op+pve&restrict_sr=1&sort=new&t=month" },
+      { n: "after Destiny 2", t: "google \u00b7 week", u: "https://www.google.com/search?q=site%3Areddit.com+what+to+play+after+Destiny+2&tbs=qdr:w" },
+      { n: "alternative to Destiny 2", t: "google \u00b7 week", u: "https://www.google.com/search?q=site%3Areddit.com+alternative+to+Destiny+2&tbs=qdr:w" },
+      { n: "like Helldivers", t: "google \u00b7 year", u: "https://www.google.com/search?q=site%3Areddit.com+games+like+Helldivers&tbs=qdr:y" },
+      { n: "like Deep Rock", t: "google \u00b7 year", u: "https://www.google.com/search?q=site%3Areddit.com+games+like+Deep+Rock+Galactic&tbs=qdr:y" },
+      { n: "like Warframe", t: "google \u00b7 year", u: "https://www.google.com/search?q=site%3Areddit.com+games+like+Warframe&tbs=qdr:y" },
+      { n: "like Everspace 2", t: "google \u00b7 year", u: "https://www.google.com/search?q=site%3Areddit.com+games+like+Everspace+2&tbs=qdr:y" },
+      { n: "like No Man\u2019s Sky", t: "google \u00b7 year", u: "https://www.google.com/search?q=site%3Areddit.com+games+like+No+Mans+Sky&tbs=qdr:y" },
+      { n: "co-op like XCOM", t: "google \u00b7 year", u: "https://www.google.com/search?q=site%3Areddit.com+co-op+games+like+XCOM&tbs=qdr:y" },
+      { n: "free co-op looter", t: "google \u00b7 year", u: "https://www.google.com/search?q=site%3Areddit.com+free+co-op+looter+shooter&tbs=qdr:y" },
+      { n: "\u201cWarped Universe\u201d", t: "every mention", u: "https://www.google.com/search?q=site%3Areddit.com+%22Warped+Universe%22&tbs=qdr:w" },
+      { n: "r/warpeduniverse", t: "your own sub", u: "https://www.reddit.com/r/warpeduniverse/new/" },
+      { n: "r/gamedev", t: "numbers + lessons", u: "https://www.reddit.com/r/gamedev/" },
+      { n: "r/IndieDev", t: "process posts", u: "https://www.reddit.com/r/IndieDev/" },
+      { n: "r/LowSodiumDestiny", t: "proven \u00b7 43k views", u: "https://www.reddit.com/r/LowSodiumDestiny/new/" },
+      { n: "r/CoopGaming", t: "posting ok", u: "https://www.reddit.com/r/CoopGaming/" },
+      { n: "r/spacesimgames", t: "posting ok", u: "https://www.reddit.com/r/spacesimgames/" },
+      { n: "r/helldivers2", t: "comment only", u: "https://www.reddit.com/r/helldivers2/" },
+      { n: "r/Warframe", t: "comment only", u: "https://www.reddit.com/r/Warframe/" },
+      { n: "r/DeepRockGalactic", t: "read the room", u: "https://www.reddit.com/r/DeepRockGalactic/" },
+      { n: "r/worldbuilding", t: "lore \u00b7 Syd Mead", u: "https://www.reddit.com/r/worldbuilding/" },
+      { n: "r/xcom", t: "turn-based mode", u: "https://www.reddit.com/r/xcom/" },
+      { n: "r/SoundDesign", t: "craft posts", u: "https://www.reddit.com/r/SoundDesign/" },
+      { n: "r/GameAudio", t: "UE5, no middleware", u: "https://www.reddit.com/r/GameAudio/" },
+      { n: "Steam page", t: "keep news pinned", u: "https://store.steampowered.com/search/?term=Warped+Universe" },
+      { n: "F5Bot", t: "background alerts", u: "https://f5bot.com/" }
     ],
     bp: [
-      { n: "worth paying for",    t: "google · past month", u: "https://www.google.com/search?q=site%3Areddit.com+%22worth+paying+for+mastering%22&tbs=qdr:m" },
-      { n: "engineer rec",        t: "google · past month", u: "https://www.google.com/search?q=site%3Areddit.com+%22mastering+engineer%22+recommendation&tbs=qdr:m" },
-      { n: "what does it cost",   t: "google · past month", u: "https://www.google.com/search?q=site%3Areddit.com+%22how+much+does+mastering+cost%22&tbs=qdr:m" },
-      { n: "r/audioengineering",  t: "answer, no links",       u: "https://www.reddit.com/r/audioengineering/search/?q=mastering+engineer&restrict_sr=1&sort=new&t=week" },
-      { n: "r/WeAreTheMusicMakers", t: "answer, no links",     u: "https://www.reddit.com/r/WeAreTheMusicMakers/search/?q=mastering&restrict_sr=1&sort=new&t=week" },
-      { n: "Discogs credits",     t: "180+ · anniversaries", u: "https://www.discogs.com/artist/2245222" }
+      { n: "worth paying for", t: "google \u00b7 month", u: "https://www.google.com/search?q=site%3Areddit.com+%22worth+paying+for+mastering%22&tbs=qdr:m" },
+      { n: "engineer rec", t: "google \u00b7 month", u: "https://www.google.com/search?q=site%3Areddit.com+%22mastering+engineer%22+recommendation&tbs=qdr:m" },
+      { n: "what does it cost", t: "google \u00b7 month", u: "https://www.google.com/search?q=site%3Areddit.com+%22how+much+does+mastering+cost%22&tbs=qdr:m" },
+      { n: "looking for mastering", t: "google \u00b7 week", u: "https://www.google.com/search?q=site%3Areddit.com+%22looking+for+a+mastering+engineer%22&tbs=qdr:w" },
+      { n: "mastering my album", t: "google \u00b7 week", u: "https://www.google.com/search?q=site%3Areddit.com+%22mastering+my+album%22&tbs=qdr:w" },
+      { n: "r/audioengineering", t: "answer, no links", u: "https://www.reddit.com/r/audioengineering/search/?q=mastering+engineer&restrict_sr=1&sort=new&t=week" },
+      { n: "r/WeAreTheMusicMakers", t: "answer, no links", u: "https://www.reddit.com/r/WeAreTheMusicMakers/search/?q=mastering&restrict_sr=1&sort=new&t=week" },
+      { n: "r/musicproduction", t: "answer, no links", u: "https://www.reddit.com/r/musicproduction/search/?q=mastering&restrict_sr=1&sort=new&t=week" },
+      { n: "r/edmproduction", t: "sound design", u: "https://www.reddit.com/r/edmproduction/search/?q=mastering&restrict_sr=1&sort=new&t=week" },
+      { n: "r/WeAreTheMusicMakers", t: "career + craft", u: "https://www.reddit.com/r/WeAreTheMusicMakers/" },
+      { n: "Discogs credits", t: "180+ \u00b7 anniversaries", u: "https://www.discogs.com/search/?q=BreakPoint+Mastering&type=all" },
+      { n: "muso.ai", t: "top 1%", u: "https://muso.ai/" },
+      { n: "breakpointmastering.com", t: "the site", u: "https://breakpointmastering.com/" },
+      { n: "F5Bot", t: "background alerts", u: "https://f5bot.com/" },
+      { n: "Google Alerts", t: "background alerts", u: "https://www.google.com/alerts" }
     ],
     nl: [
-      { n: "Bandcamp",            t: "followers + messages",  u: "https://thenewlaw.bandcamp.com/" },
-      { n: "The New Law (2006)",  t: "the debut · Sep 18", u: "https://thenewlaw.bandcamp.com/album/the-new-law" },
-      { n: "High Noon (2009)",    t: "KEXP: near perfect",    u: "https://thenewlaw.bandcamp.com/album/high-noon" },
-      { n: "A Bull in the Woods", t: "most recent · 2018", u: "https://thenewlaw.bandcamp.com/album/a-bull-in-the-woods" },
-      { n: "r/triphop",           t: "revival is real",       u: "https://www.reddit.com/r/triphop/new/" },
-      { n: "Last.fm",             t: "listeners",             u: "https://www.last.fm/music/The+New+Law" }
+      { n: "Bandcamp", t: "followers + messages", u: "https://thenewlaw.bandcamp.com/" },
+      { n: "The New Law (2006)", t: "the debut \u00b7 Sep 18", u: "https://thenewlaw.bandcamp.com/album/the-new-law" },
+      { n: "High Noon (2009)", t: "KEXP: near perfect", u: "https://thenewlaw.bandcamp.com/album/high-noon" },
+      { n: "The Fifty Year Storm", t: "2012 \u00b7 most rated", u: "https://thenewlaw.bandcamp.com/album/the-fifty-year-storm-2" },
+      { n: "A Bull in the Woods", t: "2018 \u00b7 most recent", u: "https://thenewlaw.bandcamp.com/album/a-bull-in-the-woods" },
+      { n: "r/triphop", t: "revival is real", u: "https://www.reddit.com/r/triphop/new/" },
+      { n: "r/downtempo", t: "revival is real", u: "https://www.reddit.com/r/downtempo/new/" },
+      { n: "every mention", t: "google \u00b7 month", u: "https://www.google.com/search?q=%22The+New+Law%22+trip+hop+Straney&tbs=qdr:m" },
+      { n: "mentions on Reddit", t: "google \u00b7 month", u: "https://www.google.com/search?q=site%3Areddit.com+%22The+New+Law%22+trip+hop&tbs=qdr:m" },
+      { n: "Last.fm", t: "listeners", u: "https://www.last.fm/music/The+New+Law" },
+      { n: "Spotify", t: "5,113 followers", u: "https://open.spotify.com/search/The%20New%20Law" }
     ],
     jb: [
-      { n: "F5Bot",               t: "background alerts",     u: "https://f5bot.com/" },
-      { n: "Google Alerts",       t: "background alerts",     u: "https://www.google.com/alerts" }
+      { n: "LinkedIn jobs", t: "audio \u00b7 games \u00b7 QA", u: "https://www.linkedin.com/jobs/" },
+      { n: "audio jobs", t: "google \u00b7 week", u: "https://www.google.com/search?q=%22audio+director%22+OR+%22sound+designer%22+remote+jobs&tbs=qdr:w" },
+      { n: "QA lead roles", t: "google \u00b7 week", u: "https://www.google.com/search?q=%22QA+lead%22+remote+jobs&tbs=qdr:w" },
+      { n: "F5Bot", t: "background alerts", u: "https://f5bot.com/" },
+      { n: "Google Alerts", t: "background alerts", u: "https://www.google.com/alerts" }
     ]
   };
 
@@ -1166,6 +1265,8 @@
   var sprintStatus = document.getElementById("sprintStatus");
   var cardEls = [];
   var tileGrid = document.getElementById("tileGrid");
+  var chanTabs = document.getElementById("chanTabs");
+  var viewChannel = null;   // null = follow today, otherwise a pinned channel
   var sweepLabel = document.getElementById("sweepLabel");
   var sandboxForm = document.getElementById("sandboxForm");
   var sandboxInput = document.getElementById("sandboxInput");
@@ -1443,20 +1544,47 @@
 
   /* The grid is whichever channel today's block belongs to -- the sweep
      tiles from the Signal boards, not a fixed set of consumer apps. */
+  function renderChanTabs(active){
+    while (chanTabs.firstChild) chanTabs.removeChild(chanTabs.firstChild);
+    var order = ["bp", "wu", "nl", "jb"];   // BreakPoint first: it pays the bills
+    for (var i = 0; i < order.length; i++){
+      (function(key){
+        var c = CHANNELS[key];
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "chan-tab";
+        b.style.setProperty("--chan", c.accent);
+        b.setAttribute("aria-selected", key === active ? "true" : "false");
+        var dot = document.createElement("span");
+        dot.className = "dot";
+        b.appendChild(dot);
+        b.appendChild(document.createTextNode(c.name + " · " + (TILES[key] || []).length));
+        b.addEventListener("click", function(){
+          viewChannel = key;
+          renderTiles();
+          renderSprint();
+        });
+        chanTabs.appendChild(b);
+      })(order[i]);
+    }
+  }
+
   function renderTiles(){
     var plan = todayEntry(0).plan;
-    var chan = CHANNELS[plan.ch] || CHANNELS.bp;
-    var tiles = TILES[plan.ch] || [];
+    var key = viewChannel || plan.ch;
+    var chan = CHANNELS[key] || CHANNELS.bp;
+    var tiles = TILES[key] || [];
+    renderChanTabs(key);
 
     while (tileGrid.firstChild) tileGrid.removeChild(tileGrid.firstChild);
 
     for (var i = 0; i < tiles.length; i++){
       var tile = tiles[i];
-      var key = plan.ch + ":" + tile.n;
+      var tileKey = key + ":" + tile.n + ":" + tile.t;
 
       var card = document.createElement("div");
       card.className = "card";
-      card.setAttribute("data-channel", key);
+      card.setAttribute("data-channel", tileKey);
       card.style.setProperty("--card-accent", chan.accent);
 
       var a = document.createElement("a");
@@ -1479,7 +1607,7 @@
       var btn = document.createElement("button");
       btn.type = "button";
       btn.className = "card-check";
-      btn.setAttribute("data-channel", key);
+      btn.setAttribute("data-channel", tileKey);
       btn.setAttribute("aria-pressed", "false");
       btn.setAttribute("aria-label", "Mark " + tile.n + " swept");
       btn.textContent = "\u2713";
@@ -1494,7 +1622,7 @@
 
     cardEls = tileGrid.querySelectorAll(".card[data-channel]");
     CHANNEL_COUNT = cardEls.length;
-    sweepLabel.textContent = chan.name + " sweep";
+    sweepLabel.textContent = chan.name + (key === plan.ch ? " sweep · today" : " sweep");
   }
 
   function renderSprint(){
