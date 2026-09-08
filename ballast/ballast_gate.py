@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Warped Trading Desk - Risk Gate (v2.2)
+Ballast - Risk Gate (v2.2)
 
 This is the "Risk/Exit independent verifier with full veto power" from the
 manual, implemented as plain arithmetic rather than as instructions to a
@@ -12,10 +12,10 @@ the time. A function that computes them follows them every time. The veto in
 Part 4 is only meaningful if nothing can talk it out of a veto.
 
 Usage:
-    python risk_gate.py --asset SOL-USD --direction long \
+    python ballast_gate.py --asset SOL-USD --direction long \
         --entry 200 --stop 188 --target 224 --hold-days 3
 
-    python risk_gate.py --status          # show desk state and any freezes
+    python ballast_gate.py --status          # show desk state and any freezes
 """
 
 from __future__ import annotations
@@ -335,7 +335,7 @@ def evaluate(args: argparse.Namespace) -> int:
 def show_status() -> int:
     state = load_state()
     today = date.today()
-    print(f"\nWarped Trading Desk - state as of {today.isoformat()}")
+    print(f"\nBallast - state as of {today.isoformat()}")
     for desk_key, desk_name in (
         ("main_desk", "Main Desk"),
         ("experimental_sleeve", "Experimental Sleeve"),
@@ -368,7 +368,7 @@ def show_status() -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Warped Trading Desk risk gate - independent verifier with veto power."
+        description="Ballast risk gate - independent verifier with veto power."
     )
     parser.add_argument("--status", action="store_true", help="Show desk state and exit.")
     parser.add_argument("--asset", help="e.g. SOL-USD")

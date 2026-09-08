@@ -1,4 +1,4 @@
-# WARPED TRADING DESK
+# BALLAST
 ## Complete Manual – Version 2.2
 
 Owner: Adam (Warped Games)
@@ -8,7 +8,7 @@ Rule: Follow only this document. Do not mix in other strategies.
 > Kept as originally written. Where the setup steps differ from what is actually
 > in this folder, `README.md` explains why - three things in Part 2.3 would not
 > have behaved as intended. The rules in Parts 0, 4 and 5 are unchanged and are
-> what `risk_gate.py` enforces.
+> what `ballast_gate.py` enforces.
 
 ---
 

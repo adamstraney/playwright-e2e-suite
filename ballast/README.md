@@ -1,6 +1,9 @@
-# Warped Trading Desk
+# Ballast
 
-Setup and daily tooling for the Warped Trading Desk, v2.2.
+Setup and daily tooling for Ballast, v2.2.
+
+*Ballast is the weight carried low in a hull. It does not make the ship fast -
+it makes it hard to capsize. Rule 10: capital preservation comes first.*
 
 Personal capital only. No Warped tokens or other project-related Sui tokens in
 either desk, ever. Warped runway and game server costs stay completely separate.
@@ -27,7 +30,7 @@ So the honest split is:
 |---|---|---|
 | Ollama + qwen2.5 models | Your computer | You, tonight, ~20 min |
 | TradingAgents | Your computer | You, tonight, ~10 min |
-| `run_majors.py`, `risk_gate.py`, logs | This folder | Done - ready to use |
+| `run_majors.py`, `ballast_gate.py`, logs | This folder | Done - ready to use |
 
 ---
 
@@ -47,7 +50,7 @@ rules - they ran their standard analysis, and you read a rulebook next to it.
 This matters more than it sounds. Rules 2 through 7 are the ones protecting your
 capital, and they were not connected to anything.
 
-**The fix:** the rules moved out of the model and into arithmetic. `risk_gate.py`
+**The fix:** the rules moved out of the model and into arithmetic. `ballast_gate.py`
 computes your position size and checks every hard limit in Part 4 as plain maths.
 Rule 8 says the Risk/Exit function is an independent verifier with full veto
 power - a verifier that is a function cannot be talked out of a veto by a
@@ -78,7 +81,7 @@ returns a rating - one of Buy / Overweight / Hold / Underweight / Sell, or
 local run and got back the word `Hold`.
 
 **The fix:** `run_majors.py` prints the full research text and the rating.
-`risk_gate.py` produces the `=== FINAL DESK OUTPUT ===` block, in your exact
+`ballast_gate.py` produces the `=== FINAL DESK OUTPUT ===` block, in your exact
 format, with real numbers in it - because sizing is the part that has to be
 correct, and it is arithmetic, not opinion.
 
@@ -125,10 +128,10 @@ Copy `run_majors.py` from this folder into the `TradingAgents` folder you just
 cloned, and keep the rest of this folder wherever you like:
 
 ```bash
-cp warped-trading-desk/run_majors.py TradingAgents/
+cp ballast/run_majors.py TradingAgents/
 ```
 
-`risk_gate.py` has no dependencies at all - it runs on any Python 3.10+, in any
+`ballast_gate.py` has no dependencies at all - it runs on any Python 3.10+, in any
 folder, with or without conda active. It works tonight even if Ollama gives you
 trouble.
 
@@ -164,7 +167,7 @@ each desk in `desk_state.json`.
 ### 6. Check it works
 
 ```bash
-python3 risk_gate.py --status
+python3 ballast_gate.py --status
 ```
 
 It should print both desks and their current state.
@@ -198,7 +201,7 @@ script tells you to stop - that is rule 7 doing its job.
 Pick your entry, hard stop and target from the research, then:
 
 ```bash
-python3 risk_gate.py --asset SOL-USD --direction long \
+python3 ballast_gate.py --asset SOL-USD --direction long \
     --entry 200 --stop 188 --target 224 --hold-days 3 \
     --wind "SOL flow rotating in, Medium confidence" \
     --reason "trend intact; wind rotation; clean invalidation at 188" \
@@ -224,14 +227,14 @@ in the loop, and it takes about thirty seconds.
 
 ### Step 5 - Sleeve, optional
 
-`python3 risk_gate.py --sleeve ...` sizes against the sleeve's capital and its
+`python3 ballast_gate.py --sleeve ...` sizes against the sleeve's capital and its
 tighter limits. Skipping it costs nothing.
 
 ---
 
 ## The hard rules, as implemented
 
-Every one of these is enforced by `risk_gate.py`, not by a model's memory.
+Every one of these is enforced by `ballast_gate.py`, not by a model's memory.
 
 | Rule | Main Desk | Sleeve |
 |---|---|---|
@@ -279,7 +282,7 @@ rows in the log is a successful week one.
 | File | What it is |
 |---|---|
 | `run_majors.py` | Step 2. Runs TradingAgents on one allowed asset. Copy into the TradingAgents folder. |
-| `risk_gate.py` | Step 3. Sizing and the hard-rule veto. No dependencies. |
+| `ballast_gate.py` | Step 3. Sizing and the hard-rule veto. No dependencies. |
 | `desk_state.example.json` | Template for your numbers. Copy to `desk_state.json`. |
 | `wind_report_prompt.md` | Step 1. The Wind Report prompt. |
 | `Main_Desk_Log.md` | Step 4. Decision log. |
@@ -294,7 +297,7 @@ rows in the log is a successful week one.
 - [ ] Ollama installed, both models pulled, Ollama left running
 - [ ] TradingAgents installed, `conda activate tradingagents` works
 - [ ] `run_majors.py` copied into the TradingAgents folder
-- [ ] `python3 risk_gate.py --status` prints both desks
+- [ ] `python3 ballast_gate.py --status` prints both desks
 - [ ] Main Desk wallet funded
 - [ ] Sleeve wallet funded, separate account
 - [ ] First Wind Report run and saved

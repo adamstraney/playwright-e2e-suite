@@ -7,6 +7,6 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 
-# Warped Trading Desk - real capital numbers stay local
-warped-trading-desk/desk_state.json
-warped-trading-desk/wind_reports/
+# Ballast - real capital numbers stay local
+ballast/desk_state.json
+ballast/wind_reports/

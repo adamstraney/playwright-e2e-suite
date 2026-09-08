@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Warped Trading Desk - Main Desk runner (v2.2)
+Ballast - Main Desk runner (v2.2)
 
 Step 2 of the daily workflow. Runs TradingAgents over one allowed asset and
 prints its research, then hands you over to the risk gate.
@@ -16,7 +16,7 @@ Underweight / Sell, or REVIEW when the model produced nothing parseable.
 
 It does NOT produce a ticket. A rating is an opinion; a ticket is an opinion
 plus a stop, a size and a limit check. The sizing and the hard rules live in
-risk_gate.py, which is arithmetic and cannot be argued with. Read this output,
+ballast_gate.py, which is arithmetic and cannot be argued with. Read this output,
 pick your levels, then run the gate.
 """
 
@@ -51,7 +51,7 @@ YOUR RULES - read these before you look at the output below.
   Universe        BTC-USD, ETH-USD, SOL-USD. Satellite max 20% of equity,
                   and only with a written justification.
   Risk per trade  2.5% of current equity. 1.5% once you are 20% below peak.
-  Sizing          Equity x risk% / stop distance%   (risk_gate.py computes it)
+  Sizing          Equity x risk% / stop distance%   (ballast_gate.py computes it)
   Every ticket    entry zone, hard stop, take-profit, max hold <= 5 days.
   Daily limit     -5% on the day  -> NO TRADE, freeze the rest of the day.
   Weekly limit    -12% on the week -> freeze the rest of the week.
@@ -61,7 +61,7 @@ YOUR RULES - read these before you look at the output below.
   Never           average down. Widen a stop. Touch Warped project tokens.
   Default         "NO TRADE" beats a forced setup.
 
-  The Risk/Exit verifier has full veto. It is risk_gate.py, not this model.
+  The Risk/Exit verifier has full veto. It is ballast_gate.py, not this model.
   The Wind Report is context. It is never a reason on its own.
 """
 
@@ -73,7 +73,7 @@ def main() -> int:
     if ticker not in ALLOWED:
         print(f"'{ticker}' is not in the core universe {ALLOWED}.")
         print("Satellite positions are a deliberate exception - size them through")
-        print("risk_gate.py with --satellite and write down why.")
+        print("ballast_gate.py with --satellite and write down why.")
         return 1
 
     # These are crypto pairs, not companies. Passing asset_type="crypto" drops
@@ -120,7 +120,7 @@ def main() -> int:
     print(
         "\nNext step - this rating is not yet a trade. Pick your entry, your hard\n"
         "stop and your target from the research above, then let the gate size it:\n\n"
-        f'  python risk_gate.py --asset {ticker} --direction long \\\n'
+        f'  python ballast_gate.py --asset {ticker} --direction long \\\n'
         f'      --entry <price> --stop <price> --target <price> \\\n'
         f'      --hold-days 5 --wind "<one line>" --reason "<up to three>" --log\n\n'
         "If the gate vetoes it, the trade does not happen. That is the whole point."
