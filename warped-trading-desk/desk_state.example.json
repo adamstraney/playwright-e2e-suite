@@ -1,0 +1,31 @@
+{
+  "_comment": "Copy this to desk_state.json and fill in your real numbers. desk_state.json is gitignored so your capital never reaches GitHub.",
+
+  "main_desk": {
+    "starting_capital": null,
+    "current_equity": null,
+    "peak_equity": null,
+    "day_start_equity": null,
+    "week_start_equity": null,
+    "open_risk_pct": 0.0,
+    "frozen_until": null,
+    "freeze_reason": null,
+    "wallet": "name of the Main Desk wallet or exchange account"
+  },
+
+  "experimental_sleeve": {
+    "starting_capital": null,
+    "current_equity": null,
+    "peak_equity": null,
+    "day_start_equity": null,
+    "week_start_equity": null,
+    "open_risk_pct": 0.0,
+    "frozen_until": null,
+    "freeze_reason": null,
+    "wallet": "name of the SEPARATE sleeve wallet - never the same account"
+  },
+
+  "rule_overrides": {
+    "experimental_sleeve": {}
+  }
+}
